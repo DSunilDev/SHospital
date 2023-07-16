@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InPatient Form</title>
+</head>
+<body>
+  <%- include('navbar') %>
+    <div class="inpatientform">
+        <center><h2><b><i>InPatient Form</i></b></h2></center>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Name</label>
+        <input type="text" class="form-control" id="Name" placeholder="Patient Name">
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Age</label>
+        <input type="number" class="form-control" id="Age" placeholder="Age">
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Guardian</label>
+        <input type="text" class="form-control" id="Guardian" placeholder="Guardian Name">
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Reason</label>
+        <input type="text" class="form-control" id="Guardian" placeholder="Reason">
+      </div>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Consulted
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><a class="dropdown-item" href="#">Dr.Marimuthu</a></li>
+        </ul>
+      </div>
+      <label for="exampleFormControlTextarea1" class="form-label">Address</label>
+  <textarea class="form-control" id="Address" rows="3" placeholder="Address"></textarea>
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Phone Number</label>
+    <input type="tel" class="form-control" id="Phone" placeholder="Phone Number">
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Date</label>
+    <input type="date" class="form-control" id="Date">
+    <label for="exampleFormControlInput1" class="form-label">Time</label>
+    <input type="time" class="form-control" id="Time">
+  </div>
+  <label>Patient Type : <b>InPatient </b></label>
+  <button type="button" class="btn btn-success" id="Submit">Submit</button>
+</div>
+<%- include('footer') %>
+</body>
+</html>

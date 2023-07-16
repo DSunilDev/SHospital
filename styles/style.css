@@ -1,0 +1,153 @@
+#title
+{
+    background-color: blue;
+    color: white;
+    height: 70px;
+}
+
+#title a
+{
+    font-size: larger;
+    font-weight: 400;
+    color: aliceblue;
+}
+
+#title a:hover{
+    color: gray;
+}
+
+
+.footer
+{
+    background-color:blue;
+    height:120px;
+    color: black;
+}
+/*Footer*/
+
+.collapse navbar-collapse{
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    color: aliceblue;
+    padding: 15px;
+    color: black;
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    align-content: flex-start;
+    font-size: large;
+}
+
+.footer a:hover{
+    color:whitesmoke;
+    font-size: larger;
+}
+
+/*Dashboard Design */
+.dashboard
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    align-content: flex-start;
+    padding: 7%;
+}
+
+.dropdown a{
+    background-color: lightcyan;
+}
+
+.dropdown button{
+    background-color: blue;
+}
+
+
+/*Doctor Screen*/
+.doctor
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    align-content:flex-start;
+    padding:6%;
+}
+
+/*Patient Form */
+#Name
+{
+    width:40%;
+}
+
+#Age
+{
+    width:5%;
+}
+
+#Guardian
+{
+    width:49%;
+}
+
+#Address
+{
+    width:60%;
+    height:20%;
+}
+
+#Phone
+{
+    width:30%;
+}
+
+#Date
+{
+    width:12%;
+}
+
+#ro
+{
+    background-color: gray;
+    width:10%;
+}
+
+.formend
+{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content:space-around;
+    align-content:flex-start;
+}
+
+#Submit
+{
+    margin-left: 50px;
+}
+
+/*Doctor form*/
+
+#DName
+{
+    width:35%;
+}
+
+#Special
+{
+    width:20%;
+}
+
+/*Patient Forms Polish*/
+#Time
+{
+    width:12%;
+}
+
+#Diagnosis
+{
+    width:40%;
+}
