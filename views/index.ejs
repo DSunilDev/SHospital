@@ -12,8 +12,8 @@
         <div class="card" style="width: 18rem;">
             <img src="imgs/doctor.png" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title">No. of Doctors</h5>
-              <p class="card-text">Doctors Available </p>
+              <h5 class="card-title">Doctor</h5>
+              <p class="card-text">Doctors Available : <%= doctorcount %></p>
               <a href="/DoctorForm" class="btn btn-primary">Add Doctor</a>
             </div>
           </div>
@@ -21,7 +21,8 @@
             <img src="imgs/patient.jpg" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">No. of Patients</h5>
-              <p class="card-text">Records Available : </p>
+              <p class="card-text">InPatient Records Available : <%= inlength %> </p>
+              <p class="card-text">OutPatient Records Available : <%= outlength %> </p>
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                   Add Patient
@@ -38,7 +39,7 @@
             <img src="imgs/bg.jpg" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">Surgeries Done</h5>
-              <p class="card-text">Records Available : </p>
+              <p class="card-text">Records Available : <%= surgerycount %> </p>
               <a href="/SurgeryForm" class="btn btn-primary">Add Surgery</a>
             </div>
           </div>

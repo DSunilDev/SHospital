@@ -1,45 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<!--Patch Work Remains-->
-<!--Detailes Record Page For Individual-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InPatient Record</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <title>Surgeons</title>
 </head>
 <body>
-  <%- include('navbar') %>
-  <center><h3>InPatient Record</h3></center>
-      <table class="table table-striped-columns">
+    <%- include('navbar') %>
+    <center><h2><b><i>Surgeons Record</i></b></h2></center>
+    <table class="table table-striped-columns">
         <thead>
             <tr>
                 <th scope="col">No.</th>
               <th scope="col">Name</th>
-              <th scope="col">Guardian</th>
-              <th scope="col">Reason</th>
-              <th scope="col">Consulted</th>
-              <th scope="col">Phone Number</th>
+              <th scope="col">Specialization</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            <%for(const i of inpatients){%>
+            <%for(const s of surgeons){%>
             <tr>
-                <th scope="row"><%= m=m+1 %></th>
-              <td><%= i.PatientName %></td>
-              <td><%= i.Guardian %></td>
-              <td><%= i.Reason %></td>
-              <td><%= i.Consulted %></td>
-              <td><%= i.Phonenumber %></td>
+              <th scope="row"> <%=no=no+1 %></th>
+              <td><b><%= s.SurgeonName %></b></td>
+              <td><%= s.Specialist %></td>
               <td><a href="#">Update Data</a></td>
             </tr>
             <%}%>
         </table>
       </table>
       <%- include('footer') %>
+    
 </body>
 </html>

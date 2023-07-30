@@ -17,15 +17,19 @@
               <th scope="col">Name</th>
               <th scope="col">Specialization</th>
               <th scope="col">Phone Number</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
+            <%for(const d of doctors){%>
             <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
+              <th scope="row"> <%=no=no+1 %></th>
+              <td><%= d.doctorname %></td>
+              <td><%= d.special %></td>
+              <td><%= d.phone %></td>
+              <td><a href="#">Update Data</a></td>
             </tr>
+            <%}%>
         </table>
       </table>
       <%- include('footer') %>
