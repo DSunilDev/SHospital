@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "Author":"Sunilkumar",
   "scripts": {
     "start": "node app.js"
   },
-  "author": "",
+  "author": "Sunilkumar",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
