@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="/images/favicon.icon" href="favicon/aicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</head>
+<body>
+  <%- include('navbar') %>
+    <div class="dop">
+      <center>
+        <div>
+          <h1>Hospital Made Hassle Free</h1>
+          <h2><i>Description and User Guide</i></h2>
+          <h3>Dashboard</h3>
+          <p>The dashboard structure is meticulously designed to enhance user accessibility to key functionalities, namely Patients Search, Doctor Addition, Patient Addition, and Surgery Inclusion. By strategically placing these features within easy reach, we prioritize a seamless user experience, allowing for swift access to frequently utilized functions.
+
+            Additionally, the dashboard prominently displays critical numerical data, encompassing the count of Doctors, Inpatients, and Outpatients currently engaged within the hospital. This panoramic overview offers stakeholders a comprehensive and insightful vantage point into the operational dynamics of the institution.
+            
+            Functioning as a centralized hub for data management, the Dashboard Page assumes a pivotal role in the meticulous recording of information. It empowers hospital personnel with a consolidated platform for efficient data entry and retrieval, contributing to enhanced organizational efficiency and informed decision-making.</p>
+        <h3>Doctor Page</h3>
+        <p>Within the Doctor Page, a comprehensive repository of the medical professionals currently affiliated with the institution is presented, showcasing pertinent details such as their nomenclature and corresponding areas of expertise. The administrator vested with control over this page enjoys the prerogative to both incorporate new practitioners into the fold and meticulously administer the wealth of existing doctor-related data.
+
+          This user-friendly interface facilitates the addition of new doctors to the roster, thereby bolstering the hospital's human resources. Furthermore, it empowers the controller to efficaciously oversee, manage, and update the information pertaining to each doctor. Such ready access to data contributes to the smooth orchestration of medical personnel and optimizes the hospital's operational prowess.
+        </p>
+        <h3>OutPatient Page and InPatient Page</h3>
+        <p>The Patient Data Management is structured with a clear demarcation between two distinct categories: OutPatients and InPatients. This demarcation necessitates the utilization of separate database collections to accommodate the unique data attributes inherent to each patient type. The primary objective of this dedicated page revolves around facilitating seamless OutPatient data entry, ensuring its accurate integration into the database.
+
+          Empowering users with a simplified data input process, the interface mandates the provision of essential particulars pertaining to the OutPatient. These crucial inputs encompass a comprehensive array of patient information, tailored to the specific requirements of this category. This enables a comprehensive and nuanced representation of the OutPatient's medical journey within the institution.
+          
+          In addition to data input, the page furnishes a summarization feature that distills pertinent patient data into an accessible format. This condensed presentation affords users a quick overview of the patient's medical history and status. Complementing this functionality, a robust search mechanism is incorporated into both the OutPatient and InPatient sections, empowering users to swiftly and effortlessly retrieve patient information as needed, thereby streamlining the information retrieval process.
+        </p>
+        <h3>Surgery Page</h3>
+        <p>The Surgery Page embodies a streamlined and intuitive design philosophy, placing paramount emphasis on the seamless interconnection between the proficient Surgeons and Anesthesiologists who contribute to the medical team's prowess. The interface is meticulously architected to ensure user-friendly access through dropdown menus, facilitating the effortless selection of available Surgeons and Anesthesiologists within the hospital's ranks.
+
+          This thoughtfully engineered platform also extends the capability for the addition of new Surgeons and Anesthesiologists to augment the medical personnel contingent. Moreover, it empowers users to meticulously document the specific diagnosis undertaken for each patient through the Add Surgery Module.
+          
+          A quintessential feature of the page lies in its ability to present a concise, aggregated summary of recorded surgical interventions. This functionality enhances user comprehension by distilling intricate surgical records into an accessible and insightful format.
+          
+          In essence, the Surgery Page encompasses an ergonomic and efficient design, fostering the seamless orchestration of surgical procedures while ensuring a comprehensive documentation of medical endeavors for both patient care and administrative purposes.
+        </p>
+        <h3>Laboratory Page</h3>
+        <p>
+          The Lab Page serves as a pivotal platform for the comprehensive management of medical investigations. This page allows for the seamless inclusion of both existing investigation reports and the initiation of new investigations, encompassing a diverse array of pertinent medico details.
+          
+          Through this interface, authorized users can effortlessly integrate investigation reports, facilitating the assembly of a comprehensive medical profile for each patient. Moreover, the page facilitates the seamless addition of fresh investigations, encompassing a myriad of medico particulars essential for accurate diagnostics and treatment planning.
+          
+          In essence, the Lab Page provides a sophisticated and user-friendly environment that optimizes the organization and accessibility of investigation reports while ensuring the seamless incorporation of new investigative endeavors, all contributing to enhanced patient care and efficient medical management.
+        </p>
+        <h3>Medical Page</h3>
+        <p>The Medical Page functions as a central repository for the holistic management of medicinal information. Within this module, meticulous care is taken to curate and organize an exhaustive collection of pharmaceutical data. Additionally, the page serves as a dedicated platform for the systematic uploading and maintenance of medicine prescription records.
+
+          In this encompassing environment, medical personnel can efficiently access and manage essential details related to medicines, ensuring a well-informed approach to patient care. Moreover, the module accommodates the seamless integration of medicine prescription records, fostering an interconnected ecosystem that promotes accurate treatment and monitoring.
+          
+          By incorporating these functionalities, the Medical Page emerges as a pivotal component in the medical management framework, providing a comprehensive and convenient platform to oversee medication-related data and prescription records for enhanced patient care and regulatory compliance.
+        </p>
+        <h3>Help Page</h3>
+        <p>The Help Page serves as a dedicated resource for users seeking assistance and engagement within the system. Within this context, users are afforded the opportunity to establish direct communication with the developer, ensuring a streamlined process for reporting any identified software glitches. To facilitate this, a standardized subject line of "Saravana Hospital Bug and Support" is implemented, ensuring that concerns are promptly addressed and resolved.
+
+          Furthermore, the Help Page invites users to contribute to the ongoing refinement of the product by providing an avenue to suggest innovative features. This inclusive approach encourages users to propose enhancements that hold the potential to significantly elevate the product's efficacy and productivity.
+          
+          In sum, the Help Page embodies a two-fold purpose: to rectify technical issues efficiently and to foster collaborative growth by welcoming user-generated ideas that further enrich the capabilities and utility of the product.
+        </p>
+        <br><br><br>
+        </div>
+      </center>
+      <%- include('footer') %>
+</body>
+</html>

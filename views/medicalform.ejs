@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="/images/favicon.icon" href="favicon/micon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <title>Add Medical Data</title>
+</head>
+<body>
+  <%- include('navbar') %>
+  <center><h2><b><i>Add Medical Prescription</i></b></h2></center>
+    <div class="surgeonform">
+        <form method="POST" action="">
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Name</label>
+        <input type="text" class="form-control" id="DName" placeholder="Patient Name" name="lname" required>
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Age</label>
+        <input type="number" class="form-control" id="Age" placeholder="Age" name="Age" required>
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Date</label>
+        <input type="date" class="form-control" id="Date" name="date" required>
+      </div>
+      <div class="dropdown">
+        <label for="exampleFormControlInput1" class="form-label">Medicine #1 and Quantity </label>
+        <br>
+        <select name="Medicine">
+          <%for(const d of meds){%>
+            <option value="<%= d.MedicineName %>"><%= d.MedicineName %></option>
+            <%}%>
+        </select>
+        <select name="Quantity">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="30">30</option>
+        </select>
+        <br><br>
+        <div id="medicineFields">
+          <!-- Initial medicine field -->
+        </div>
+      <button type="button" class="btn btn-primary" id="AddMedicine">Add Medicine</button>
+      <button type="button" class="btn btn-secondary" id="BulkAddMedicine">Bulk Add</button>
+      <br><br><br>
+      <button class="btn btn-success" id="Submit">Submit</button>
+     </form> 
+    </div>
+    <%- include('footer') %>
+</body>
+<script>
+  const addMedicineButton = document.getElementById('AddMedicine');
+  const bulkAddMedicineButton = document.getElementById('BulkAddMedicine')
+  const medicineFieldsContainer = document.getElementById('medicineFields');
+  const meds = [
+    { MedicineName: 'Medicine A' },
+    { MedicineName: 'Medicine B' },
+    // Add more medicine objects as needed
+  ];
+
+  addMedicineButton.addEventListener('click', () => {
+    addMedicineField();
+  });
+
+  bulkAddMedicineButton.addEventListener('click', () => {
+      for (let i = 0; i < 5; i++) {
+        addMedicineField();
+      }
+    });
+    let medicineCounter = 2;
+
+  function addMedicineField() {
+    const newField = document.createElement('div');
+    newField.classList.add('dropdown');
+    newField.innerHTML = `
+    <label for="exampleFormControlInput1" class="form-label">Medicine #${medicineCounter} and Quantity</label>
+      <br>
+      <select name="Medicine">
+        <% for(const d of meds) { %>
+          <option value="<%= d.MedicineName %>"><%= d.MedicineName %></option>
+        <% } %>
+      </select>
+      <select name="Quantity">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+      </select>
+      <button type="button" class="btn btn-danger remove-button">Remove</button>
+      <br><br>
+    `;
+    medicineFieldsContainer.appendChild(newField);
+
+    medicineCounter++;
+
+    const removeButton = newField.querySelector('.remove-button');
+      removeButton.addEventListener('click', () => {
+        medicineFieldsContainer.removeChild(newField);
+
+      });
+  }
+</script>
+</html>

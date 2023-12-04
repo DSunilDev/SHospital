@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="/images/favicon.icon" href="favicon/licon.ico"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <title>Add Lab Research</title>
+</head>
+<body>
+  <%- include('navbar') %>
+  <center><h2><b><i>Add Lab Research</i></b></h2></center>
+    <div class="surgeonform">
+        <form method="POST" action="/addlabdata">
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Patient's Name</label>
+        <input type="text" class="form-control" id="DName" placeholder="Patient Name" name="lname" required>
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Age</label>
+        <input type="number" class="form-control" id="Age" placeholder="Age" name="Age" required>
+      </div>
+      <div class="dropdown">
+        <label for="exampleFormControlInput1" class="form-label">Gender</label>
+        <select name="Gender" required>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <div class="dropdown">
+          <label for="exampleFormControlInput1" class="form-label">Ref. By</label>
+          <select name="Reference">
+            <%for(const d of doctors){%>
+              <option value="<%= d.doctorname %>"><%= d.doctorname %></option>
+              <%}%>
+          </select>
+        </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Date</label>
+        <input type="date" class="form-control" id="Date" name="date" required>
+      </div>
+     <h3> <label for="exampleFormControlTextarea1" class="form-label">Haematology</label></h3>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Hb%</label>
+        <input type="text" class="form-control" id="Name" placeholder="Hb%" name="Hb%">
+        <label for="exampleFormControlInput1" class="form-label">E.S.R.</label>
+        <input type="text" class="form-control" id="Name" placeholder="E.S.R" name="E.S.R">
+        <label for="exampleFormControlInput1" class="form-label">B.T</label>
+        <input type="text" class="form-control" id="Name" placeholder="B.T" name="B.T">
+        <label for="exampleFormControlInput1" class="form-label">C.T</label>
+        <input type="text" class="form-control" id="Name" placeholder="C.T" name="C.T">
+        <label for="exampleFormControlInput1" class="form-label">AbsoluteEosinophilCount</label>
+        <input type="text" class="form-control" id="Name" placeholder="AbsoluteEosinophilCount" name="AbsoluteEosinophilCount">
+        <label for="exampleFormControlInput1" class="form-label">Peripheral Smear for Mp/MF</label>
+        <input type="text" class="form-control" id="Name" placeholder="Peripheral Smear for Mp/MF" name="Peripheral Smear for Mp/MF">
+        <label for="exampleFormControlInput1" class="form-label">Peripheral Smear Study</label>
+        <input type="text" class="form-control" id="Name" placeholder="Peripheral Smear Study" name="Peripheral Smear Study">
+        <label for="exampleFormControlInput1" class="form-label">Blood Group / R.H Type</label>
+        <input type="text" class="form-control" id="Name" placeholder="Blood Group / R.H Type" name="Blood Group / R.H Type">
+        <label for="exampleFormControlInput1" class="form-label">Test for SYPHILIS</label>
+        <input type="text" class="form-control" id="Name" placeholder="Test for SYPHILIS" name="Test for SYPHILIS">
+      </div>
+     <h3> <label for="exampleFormControlTextarea1" class="form-label">WIDAL</label>
+      <br>
+      <label for="exampleFormControlTextarea1" class="form-label">Dengue Nsl,IgG & IgM</label>
+      <br> </h3>
+      <label for="exampleFormControlTextarea1" class="form-label">Bio Chemistry</label>
+      <br>
+      <label for="exampleFormControlInput1" class="form-label">Blood Sugar Random</label>
+      <input type="text" class="form-control" id="Name" placeholder="Blood Sugar Random" name="Blood Sugar Random">
+      <label for="exampleFormControlInput1" class="form-label">Blood Sugar Fasting / P.P</label>
+      <input type="text" class="form-control" id="Name" placeholder="Blood Sugar Fasting / P.P" name="Blood Sugar Fasting / P.P">
+      <h3> <label for="exampleFormControlTextarea1" class="form-label">HBA1c</label></h3>
+      <label for="exampleFormControlInput1" class="form-label">GTT</label>
+      <input type="text" class="form-control" id="Name" placeholder="GTT" name="GTT">
+      <h3> <label for="exampleFormControlTextarea1" class="form-label">RFT</label></h3>
+      <label for="exampleFormControlInput1" class="form-label">Blood Urea</label>
+      <input type="text" class="form-control" id="Name" placeholder="Blood Urea" name="Blood Urea">
+      <label for="exampleFormControlInput1" class="form-label">Serum Creatinine</label>
+      <input type="text" class="form-control" id="Name" placeholder="Serum Creatinine" name="Serum Creatinine">
+      <h3> <label for="exampleFormControlTextarea1" class="form-label">Cholestrol</label>
+        <br>
+        <label for="exampleFormControlTextarea1" class="form-label">Lipid Profile</label>
+        <br> </h3>
+        <label for="exampleFormControlInput1" class="form-label">TROPONIN-I</label>
+        <input type="text" class="form-control" id="Name" placeholder="TROPONIN-I" name="TROPONIN-I">
+        <h3> <label for="exampleFormControlTextarea1" class="form-label">L.F.T</label></h3>
+        <label for="exampleFormControlInput1" class="form-label">S.Bilirubin</label>
+        <input type="text" class="form-control" id="Name" placeholder="S.Bilirubin" name="S.Bilirubin">
+        <label for="exampleFormControlInput1" class="form-label">Total / Differential</label>
+        <input type="text" class="form-control" id="Name" placeholder="Total / Differential" name="Total / Differential">
+        <label for="exampleFormControlInput1" class="form-label">Alk  & Acid Phosphatase</label>
+        <input type="text" class="form-control" id="Name" placeholder="Alk  & Acid Phosphatase" name="Alk  & Acid Phosphatase">
+        <label for="exampleFormControlInput1" class="form-label">S. Protein A.G. Ratio</label>
+        <input type="text" class="form-control" id="Name" placeholder="S. Protein A.G. Ratio" name="S. Protein A.G. Ratio">
+        <label for="exampleFormControlInput1" class="form-label">S.G.O.T</label>
+        <input type="text" class="form-control" id="Name" placeholder="S.G.O.T" name="S.G.O.T">
+        <label for="exampleFormControlInput1" class="form-label">S.G.P.T</label>
+        <input type="text" class="form-control" id="Name" placeholder="S.G.P.T" name="S.G.P.T">
+        <label for="exampleFormControlInput1" class="form-label">Prothrombin time</label>
+        <input type="text" class="form-control" id="Name" placeholder="Prothrombin time" name="Prothrombin time">
+        <label for="exampleFormControlInput1" class="form-label">Serum Calcium</label>
+        <input type="text" class="form-control" id="Name" placeholder="Serum Calcium" name="Serum Calcium">
+        <h3> <label for="exampleFormControlTextarea1" class="form-label">RHEUMATIC PROFILE</label></h3>
+        <label for="exampleFormControlInput1" class="form-label">ESR</label>
+        <input type="text" class="form-control" id="Name" placeholder="ESR" name="ESR">
+        <label for="exampleFormControlInput1" class="form-label">CRP</label>
+        <input type="text" class="form-control" id="Name" placeholder="CRP" name="CRP">
+        <label for="exampleFormControlInput1" class="form-label">Serum Uric Acid</label>
+        <input type="text" class="form-control" id="Name" placeholder="Serum Uric Acid" name="Serum Uric Acid">
+        <label for="exampleFormControlInput1" class="form-label">Latex Fixation for R.F</label>
+        <input type="text" class="form-control" id="Name" placeholder="Latex Fixation for R.F" name="Latex Fixation for R.F">
+        <label for="exampleFormControlInput1" class="form-label">Serum A.S.O Tire</label>
+        <input type="text" class="form-control" id="Name" placeholder="Serum A.S.O Tire" name="Serum A.S.O Tire">
+        <label for="exampleFormControlInput1" class="form-label">ANA</label>
+        <input type="text" class="form-control" id="Name" placeholder="ANA" name="ANA">
+        <h3> <label for="exampleFormControlTextarea1" class="form-label">CRP</label></h3>
+        <label for="exampleFormControlInput1" class="form-label">Amylase</label>
+        <input type="text" class="form-control" id="Name" placeholder="Amylase" name="Amylase">
+        <b>
+        <label for="exampleFormControlInput1" class="form-label">Electrolytes</label>
+        <input type="text" class="form-control" id="Name" placeholder="Electrolytes" name="Electrolytes">
+        <label for="exampleFormControlInput1" class="form-label">SERUM HBS. Avg</label>
+        <input type="text" class="form-control" id="Name" placeholder="SERUM HBS. Avg" name="SERUM HBS. Avg">
+        <label for="exampleFormControlInput1" class="form-label">H.I.V 1 & 2</label>
+        <input type="text" class="form-control" id="Name" placeholder="H.I.V 1 & 2" name="H.I.V 1 & 2">
+        </b>
+        <h3> <label for="exampleFormControlTextarea1" class="form-label">URINE</label></h3>
+        <label for="exampleFormControlInput1" class="form-label">Albumin</label>
+        <input type="text" class="form-control" id="Name" placeholder="Albumin" name="Albumin">
+        <label for="exampleFormControlInput1" class="form-label">Sugar</label>
+        <input type="text" class="form-control" id="Name" placeholder="Sugar" name="Sugar">
+        <label for="exampleFormControlInput1" class="form-label">Deposits</label>
+        <input type="text" class="form-control" id="Name" placeholder="Deposits" name="Deposits">
+        <label for="exampleFormControlInput1" class="form-label">Bile Salts</label>
+        <input type="text" class="form-control" id="Name" placeholder="Bile Salts" name="Bile Salts">
+        <label for="exampleFormControlInput1" class="form-label">Bile Pigments</label>
+        <input type="text" class="form-control" id="Name" placeholder="Bile Pigments" name="Bile Pigments">
+        <label for="exampleFormControlInput1" class="form-label">Acetone</label>
+        <input type="text" class="form-control" id="Name" placeholder="Acetone" name="Acetone">
+        <label for="exampleFormControlInput1" class="form-label">P.H</label>
+        <input type="text" class="form-control" id="Name" placeholder="P.H" name="P.H">
+        <label for="exampleFormControlInput1" class="form-label">Urobilinogen</label>
+        <input type="text" class="form-control" id="Name" placeholder="Urobilinogen" name="Urobilinogen">
+        <label for="exampleFormControlInput1" class="form-label">Specific Gravity</label>
+        <input type="text" class="form-control" id="Name" placeholder="Specific Gravity" name="Specific Gravity">
+        <label for="exampleFormControlInput1" class="form-label">PREGNANCY TEST</label>
+        <input type="text" class="form-control" id="Name" placeholder="PREGNANCY TEST" name="PREGNANCY TEST">
+        <label for="exampleFormControlInput1" class="form-label">CULTURE & SENSITIVITY</label>
+        <input type="text" class="form-control" id="Name" placeholder="CULTURE & SENSITIVITY" name="Urine CULTURE & SENSITIVITY">
+        <label for="exampleFormControlInput1" class="form-label">Micro Albumin</label>
+        <input type="text" class="form-control" id="Name" placeholder="Micro Albumin" name="Micro Albumin">
+        <h3> <label for="exampleFormControlTextarea1" class="form-label">O & G</label></h3>
+        <label for="exampleFormControlInput1" class="form-label">T3 T4 TSH</label>
+        <input type="text" class="form-control" id="Name" placeholder="T3 T4 TSH" name="T3 T4 TSH">
+        <label for="exampleFormControlInput1" class="form-label">Free T3 T4 TSH</label>
+        <input type="text" class="form-control" id="Name" placeholder="Free T3 T4 TSH" name="Free T3 T4 TSH">
+        <label for="exampleFormControlInput1" class="form-label">LH/FSH/Prolactin/AMH</label>
+        <input type="text" class="form-control" id="Name" placeholder="LH/FSH/Prolactin/AMH" name="LH/FSH/Prolactin/AMH">
+        <label for="exampleFormControlInput1" class="form-label">BHCG</label>
+        <input type="text" class="form-control" id="Name" placeholder="BHCG" name="BHCG">
+        <h3> <label for="exampleFormControlTextarea1" class="form-label">MOTION</label></h3>
+        <label for="exampleFormControlInput1" class="form-label">Ova,Cyst,Lactose</label>
+        <input type="text" class="form-control" id="Name" placeholder="Ova,Cyst,Lactose" name="Ova,Cyst,Lactose">
+        <label for="exampleFormControlInput1" class="form-label">Occult Blood</label>
+        <input type="text" class="form-control" id="Name" placeholder="Occult Blood" name="Occult Blood">
+        <label for="exampleFormControlInput1" class="form-label">CULTURE & SENSITIVITY</label>
+        <input type="text" class="form-control" id="Name" placeholder="CULTURE & SENSITIVITY" name="Motion CULTURE & SENSITIVITY">
+        <h3> <label for="exampleFormControlTextarea1" class="form-label">SPUTUM</label></h3>
+        <label for="exampleFormControlInput1" class="form-label">for A.F.B & Gram's Stain</label>
+        <input type="text" class="form-control" id="Name" placeholder="A.F.B & Gram's Stain" name="A.F.B & Gram's Stain">
+        <label for="exampleFormControlInput1" class="form-label">CULTURE & SENSITIVITY</label>
+        <input type="text" class="form-control" id="Name" placeholder="CULTURE & SENSITIVITY" name="Sputum CULTURE & SENSITIVITY">
+        <b>
+          <label for="exampleFormControlInput1" class="form-label">MANTOUX</label>
+          <input type="text" class="form-control" id="Name" placeholder="MANTOUX" name="MANTOUX">
+          <label for="exampleFormControlInput1" class="form-label">SEMEN ANALYSIS</label>
+          <input type="text" class="form-control" id="Name" placeholder="SEMEN ANALYSIS" name="SEMEN ANALYSIS">
+          <label for="exampleFormControlInput1" class="form-label">C.S.F Analysis </label>
+          <input type="text" class="form-control" id="Name" placeholder="C.S.F Analysis" name="C.S.F Analysis">
+          <label for="exampleFormControlInput1" class="form-label">E.C.G</label>
+          <input type="text" class="form-control" id="Name" placeholder="E.C.G" name="E.C.G">
+          </b>
+          <label for="exampleFormControlInput1" class="form-label">Part to be X-Rayed</label>
+          <input type="text" class="form-control" id="Name" placeholder="Part to be X-Rayed" name="Part to be X-Rayed">
+      <label for="exampleFormControlTextarea1" class="form-label">Investigation Report</label>
+      <div class="input-group mb-3" id="P">
+        <input type="file" class="form-control" id="Prescription">
+      </div>
+      <button class="btn btn-success" id="Submit">Submit</button>
+     </form> 
+    </div>
+    <br><br><br>
+    <%- include('footer') %>
+</body>
+</html>

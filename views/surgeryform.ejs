@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surgery Form</title>
+    <link rel="icon" type="/images/favicon.icon" href="favicon/sicon.ico">
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
@@ -11,7 +12,7 @@
 <body>
   <%- include('navbar') %>
     <div class="surgeyform">
-        <center><h1>Surgery Form</h1></center>
+        <center><h1><b><i>Surgery Form</i></b></h1></center>
         <form action="/addsurgery" method="POST">
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Name</label>
@@ -24,16 +25,34 @@
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Date of Admission</label>
         <input type="date" class="form-control" id="Date" name="doj" required>
+        <label for="exampleFormControlInput1" class="form-label">Date of Surgery</label>
+        <input type="date" class="form-control" id="Date" name="dos">
         <label for="exampleFormControlInput1" class="form-label">Date of Discharge</label>
         <input type="date" class="form-control" id="Date" name="dod">
       </div>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Surgery By</label>
-        <input type="text" class="form-control" id="Diagnosis" placeholder="Surgeon" name="Surgeon" required>
+        <select name="Surgeon">
+          <%for(const s of surgeons){%>
+          <option value="<%= s.SurgeonName %>"><%= s.SurgeonName %></option>
+          <%}%>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Anesthesian</label>
+        <select name="Anesthesist">
+          <%for(const a of Anesthesistd){%>
+          <option value="<%= a.Name %>"><%= a.Name %></option>
+          <%}%>
+        </select>
       </div>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Diagnosis</label>
         <input type="text" class="form-control" id="Diagnosis" placeholder="Diagnosis" name="Diagnosis" required>
+      </div>
+      <label for="exampleFormControlTextarea1" class="form-label">Discharge Summary</label>
+      <div class="input-group mb-3" id="P">
+        <input type="file" class="form-control" id="Prescription">
       </div>
       <button class="btn btn-success" id="Submit">Submit</button>
       </form>
