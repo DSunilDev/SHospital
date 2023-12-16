@@ -60,6 +60,11 @@ app.get('/about',function(req,res){
     res.render('about')
 })
 
+app.get('/insurance',function(req,res){
+    res.render('insurance')
+})
+
+
 app.get('/DoctorRecord',async function(req,res)
 {
     const doctordata=await db.getDb().collection('doctor').find().toArray();
