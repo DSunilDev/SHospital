@@ -5,7 +5,8 @@ const uuid = require('uuid');
 const db=require('./DATABASE/database.js');
 const { ObjectId } = require('mongodb');
 
-let patientCounter = 0; 
+let patientCounter = 0;
+let outpatientCounter = 0; 
 
 app.use(express.static('styles'));
 
@@ -276,19 +277,7 @@ app.post('/addInPatient',async function(req,res)
 
 app.post('/addOutPatient',async function(req,res)
 {
-    async function getNextUHIDCounter(year, month) {
-        const lastUHID = await db.getDb().collection('outpatient').find({}).sort({ UHID: -1 }).limit(1).toArray();
-      
-        if (lastUHID.length === 0 || lastUHID[0].UHID.substring(0, 7) !== `${year}-${month}`) {
-          // If there are no records for the current month, start the counter from 1
-          return 1;
-        } else {
-          // Increment the counter based on the last UHID in the current month
-          const lastCounter = parseInt(lastUHID[0].UHID.substring(8), 10);
-          return lastCounter + 1;
-        }
-      }
-      
+  
     const outpatientdata=req.body;
     const pname=outpatientdata.Name;
     const page=outpatientdata.Age;
@@ -299,12 +288,13 @@ app.post('/addOutPatient',async function(req,res)
     const phon=outpatientdata.ph;
     const date=outpatientdata.date;
 
+    outpatientCounter++;
+    const formattedCounter = outpatientCounter.toString().padStart(2, '0');
+  
+    // Create a Unique UHID in the format "yyyy-mm-01", "yyyy-mm-02", etc.
     const now = new Date();
     const year = now.getFullYear();
     const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const uhidCounter = await getNextUHIDCounter(year, month); // Get the next UHID counter
-  
-    const formattedCounter = uhidCounter.toString().padStart(2, '0');
     const uhid = `${year}${month}${formattedCounter}`;
   
     const outpatientd={
