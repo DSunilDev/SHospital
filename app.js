@@ -550,6 +550,6 @@ app.use(function(req,res)
 module.exports=app;
 
 db.connectToDatabase().then(function () {
-    app.listen(1200);
+    app.listen(500);
   });
   
