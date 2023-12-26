@@ -514,7 +514,7 @@ if (OpSearch) {
       });
     
 
-      app.get('/SearchOpd/:id', async function(req, res) {
+app.get('/SearchOpd/:id', async function(req, res) {
         const id = req.params.id.trim();
       
         try {
