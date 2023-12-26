@@ -19,6 +19,7 @@
         <thead>
             <tr>
                 <th scope="col">No.</th>
+                <th scope="col">UHID</th>
               <th scope="col">Name</th>
               <th scope="col">Guardian</th>
               <th scope="col">Reason</th>
@@ -31,6 +32,7 @@
             <%for(const i of outpatients){%>
             <tr>
               <th scope="row"><%= m=m+1 %></th>
+              <td><b><%= i.UHID %></b></td>
               <td><b><%= i.PatientName %></b></td>
               <td><%= i.Guardian %></td>
               <td><%= i.Reason %></td>

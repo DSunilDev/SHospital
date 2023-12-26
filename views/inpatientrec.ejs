@@ -19,6 +19,7 @@
         <thead>
             <tr>
                 <th scope="col">No.</th>
+                <th scope="col">Patient ID</th>
               <th scope="col">Name</th>
               <th scope="col">Guardian</th>
               <th scope="col">Reason</th>
@@ -30,7 +31,8 @@
           <tbody>
             <%for(const i of inpatients){%>
             <tr>
-                <th scope="row"><%= m=m+1 %></th>
+              <th scope="row"><%= m=m+1 %></th>
+              <td><%= i.PatientId %></td>
               <td><%= i.PatientName %></td>
               <td><%= i.Guardian %></td>
               <td><%= i.Reason %></td>
