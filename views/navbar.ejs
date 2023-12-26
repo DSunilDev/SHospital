@@ -5,6 +5,33 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="mstyle.css">
 </head>
+<script>
+      function updateTimer() {
+        const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const displayHours = (hours % 12) || 12;
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+      const timeString = `${hours}:${minutes}:${seconds} ${ampm}` ;
+
+      const year = now.getFullYear();
+      const month = (now.getMonth() + 1).toString().padStart(2, '0');
+      const day = now.getDate().toString().padStart(2, '0');
+      const dateString = `${day}-${month}-${year}`;
+
+      // Display the current time and date in the timer-container element
+      document.getElementById('timer-container').innerText = `${dateString} ${timeString}`;
+
+    }
+
+    // Update the timer every second
+    setInterval(updateTimer, 1000);
+
+    // Initial update
+    updateTimer();
+
+</script>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid" id="title" data-bs-target="#tit">
       <a class="navbar-brand" id="hname" href="/"><b>SARAVANA HOSPITAL HUB</b></a>
@@ -40,6 +67,7 @@
           <li class="nav-item">
             <a class="nav-link"  href="/help">Help</a>
           </li>
+          <span class="navbar-text" id="timer-container" style="color: white;padding-left: 140px;font-weight: bold;"></span>
         </ul>
       </div>
     </div>
