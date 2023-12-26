@@ -8,7 +8,7 @@
 <script>
       function updateTimer() {
         const now = new Date();
-      const hours = now.getHours().toString().padStart(2, '0');
+      const hours = now.getHours();
       const ampm = hours >= 12 ? 'PM' : 'AM';
       const displayHours = (hours % 12) || 12;
       const minutes = now.getMinutes().toString().padStart(2, '0');
