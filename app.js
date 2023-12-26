@@ -273,7 +273,19 @@ app.post('/addInPatient',async function(req,res)
     await db.getDb().collection('inpatient').insertOne(inpatientd)
     res.redirect('/IPdata')
 })
-
+async function getNextUHIDCounter(year, month) {
+    const lastUHID = await db.getDb().collection('outpatient').find({}).sort({ UHID: -1 }).limit(1).toArray();
+  
+    if (lastUHID.length === 0 || lastUHID[0].UHID.substring(0, 7) !== `${year}-${month}`) {
+      // If there are no records for the current month, start the counter from 1
+      return 1;
+    } else {
+      // Increment the counter based on the last UHID in the current month
+      const lastCounter = parseInt(lastUHID[0].UHID.substring(8), 10);
+      return lastCounter + 1;
+    }
+  }
+  
 app.post('/addOutPatient',async function(req,res)
 {
     const outpatientdata=req.body;
@@ -310,18 +322,6 @@ app.post('/addOutPatient',async function(req,res)
     res.redirect('/OPdata')
 })
 
-async function getNextUHIDCounter(year, month) {
-    const lastUHID = await db.getDb().collection('outpatient').find({}).sort({ UHID: -1 }).limit(1).toArray();
-  
-    if (lastUHID.length === 0 || lastUHID[0].UHID.substring(0, 7) !== `${year}-${month}`) {
-      // If there are no records for the current month, start the counter from 1
-      return 1;
-    } else {
-      // Increment the counter based on the last UHID in the current month
-      const lastCounter = parseInt(lastUHID[0].UHID.substring(8), 10);
-      return lastCounter + 1;
-    }
-  }
 
 app.get('/InPatientRecord',async function(req,res)
 {
