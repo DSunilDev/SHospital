@@ -13,7 +13,9 @@
 <body>
   <%- include('navbar') %>
     <div class="outpatientform">
-        <center><h2><b><i>OutPatient Form</i></b></h2></center>
+        <center><h2><b><i>OutPatient Form 📝</i></b></h2></center>
+        <center>
+          <br><br>
         <form action="/addOutPatient" method="POST">
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Name</label>
@@ -23,14 +25,17 @@
         <label for="exampleFormControlInput1" class="form-label">Age</label>
         <input type="number" class="form-control" id="Age" placeholder="Age" name="Age" required>
       </div>
+      <br>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Guardian</label>
         <input type="text" class="form-control" id="Guardian" placeholder="Guardian Name" name="Guardian" required> 
       </div>
+      <br>
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Reason</label>
         <input type="text" class="form-control" id="Guardian" placeholder="Reason" name="Reason" required
       </div>
+      <br>
       <div class="dropdown">
         <label for="exampleFormControlInput1" class="form-label">Consultant</label>
         <select name="Consulted" id="Consultant">
@@ -39,12 +44,14 @@
           <%}%>
         </select>
       </div>
+      <br>
       <label for="exampleFormControlTextarea1" class="form-label">Prescription</label>
       <div class="input-group mb-3" id="P">
         <input type="file" class="form-control" id="Prescription">
       </div>
       <label for="exampleFormControlTextarea1" class="form-label">Address</label>
   <textarea class="form-control" id="Address" rows="3" placeholder="Address" name="Address" required></textarea>
+ <br>
   <div class="mb-3">
     <label for="exampleFormControlInput1" class="form-label">Phone Number</label>
     <input type="tel" class="form-control" id="Phone" placeholder="Phone Number" name="ph" required>
@@ -54,10 +61,14 @@
     <input type="date" class="form-control" id="Date" name="date" required>
   </div>
   <label>Patient Type : <b>OutPatient </b></label>
+  <br><br>
   <button class="btn btn-success" id="submitButton">Submit</button>
   <button  id="printButton" class="btn btn-warning">Print</button>
   </form>
+  </div>
 </div>
+</center>
+</body>
 <%- include('footer') %>
 <script>
   document.getElementById("submitButton").addEventListener("click", function() {
@@ -104,5 +115,4 @@
             printWindow.print();
         }
 </script>
-</body>
 </html>
