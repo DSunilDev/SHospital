@@ -276,7 +276,6 @@ app.post('/addOutPatient',async function(req,res)
     const address=outpatientdata.Address;
     const phon=outpatientdata.ph;
     const date=outpatientdata.date;
-    const Time=outpatientdata.Time;
 
     const outpatientd={
         PatientName:pname,
@@ -286,8 +285,7 @@ app.post('/addOutPatient',async function(req,res)
         Consulted:cons,
         Address:address,
         Phonenumber:phon,
-        Date:date,
-        JoinTime:Time
+        Date:date
     }
 
     await db.getDb().collection('outpatient').insertOne(outpatientd)
