@@ -167,12 +167,10 @@ app.post('/adddoctor',async function(req,res)
     const doctordata=req.body;
     const dname=doctordata.dname;
     const speciality=doctordata.Specialization;
-    const phonenumber=doctordata.ph;
 
     const doctors={
         doctorname:dname,
-        special:speciality,
-        phone:phonenumber
+        special:speciality
     };
     
     await db.getDb().collection('doctor').insertOne(doctors);
