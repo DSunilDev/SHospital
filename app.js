@@ -295,7 +295,7 @@ app.post('/addOutPatient',async function(req,res)
     const now = new Date();
     const year = now.getFullYear();
     const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const uhid = `${year}${month}${formattedCounter}`;
+    const uhid = `${year}11${formattedCounter}`;
   
     const outpatientd={
         UHID: uhid, 
