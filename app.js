@@ -255,11 +255,26 @@ app.post('/addInPatient',async function(req,res)
   
     const patientId = `IP${formattedCounter}`; 
 
+    const selectedRelationship = inpatientdata.Relationship;
+
+    // Set the prefix based on the selected relationship
+    let prefix = '';
+    if (selectedRelationship === 'son') {
+      prefix = 's/o';
+    } else if (selectedRelationship === 'wife') {
+      prefix = 'w/o';
+    } else if (selectedRelationship === 'daughter') {
+      prefix = 'd/o';
+    }
+  
+    // Combine the prefix and guardian name into a single variable
+    const fullGuardianName = `${prefix} ${pguard}`;
+
     const inpatientd={
         PatientId: patientId,
         PatientName:pname,
         PatientAge:page,
-        Guardian:pguard,
+        Guardian:fullGuardianName,
         Reason:reason,
         Consulted:Cons,
         Address:paddress,
@@ -294,12 +309,27 @@ app.post('/addOutPatient',async function(req,res)
     const year = now.getFullYear();
     const month = (now.getMonth() + 1).toString().padStart(2, '0');
     const uhid = `${year}10${formattedCounter}`;
+
+    const selectedRelationship = outpatientdata.Relationship;
+
+    // Set the prefix based on the selected relationship
+    let prefix = '';
+    if (selectedRelationship === 'son') {
+      prefix = 's/o';
+    } else if (selectedRelationship === 'wife') {
+      prefix = 'w/o';
+    } else if (selectedRelationship === 'daughter') {
+      prefix = 'd/o';
+    }
+  
+    // Combine the prefix and guardian name into a single variable
+    const fullGuardianName = `${prefix} ${Guard}`;
   
     const outpatientd={
         UHID: uhid, 
         PatientName:pname,
         PatientAge:page,
-        Guardian:Guard,
+        Guardian:fullGuardianName,
         Reason:reas,
         Consulted:cons,
         Address:address,
