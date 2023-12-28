@@ -169,3 +169,11 @@ label{
 #navcontents{
     font-style: italic;
 }
+
+/*Footer*/
+
+.footer a{
+    transition-property: all;
+    transition-duration: 0.5s;
+
+}
