@@ -9,6 +9,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InPatient Form</title>
 </head>
+<script>
+  function generateFullName() {
+    var relationshipDropdown = document.getElementById('relationshipDropdown');
+    var guardianInput = document.getElementById('Guardian');
+
+    // Get the selected relationship type
+    var selectedRelationship = relationshipDropdown.value;
+
+    // Set the prefix based on the selected relationship
+    var prefix = '';
+    if (selectedRelationship === 'son') {
+      prefix = 'S/o';
+    } else if (selectedRelationship === 'wife') {
+      prefix = 'W/o';
+    } else if (selectedRelationship === 'daughter') {
+      prefix = 'D/o';
+    }
+
+    // Get the input value
+    var inputValue = guardianInput.value.trim();
+
+    // Check if the input value is not empty
+    if (inputValue !== '') {
+      // Combine the prefix and input value into a single variable
+      var fullName = prefix + ' ' + inputValue;
+
+      // Use the fullName variable as needed (e.g., store it, display it, etc.)
+      alert('Full Name: ' + fullName);
+    } else {
+      alert('Please enter a Guardian Name.');
+    }
+  }
+</script>
 <body>
   <%- include('navbar') %>
     <div class="inpatientform">
@@ -26,7 +59,7 @@
       <br>
       <div class="mb-3">
         <label for="relationshipDropdown" class="form-label">Relationship</label>
-        <select class="form-select" id="relationshipDropdown" style="width:100px">
+        <select class="form-select" id="relationshipDropdown" style="width:100px" name="Relationship">
           <option value="son">Son</option>
           <option value="daughter">Daughter</option>
           <option value="wife">Wife</option>

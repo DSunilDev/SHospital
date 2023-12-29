@@ -21,11 +21,11 @@
     // Set the prefix based on the selected relationship
     var prefix = '';
     if (selectedRelationship === 'son') {
-      prefix = 's/o';
+      prefix = 'S/o';
     } else if (selectedRelationship === 'wife') {
-      prefix = 'w/o';
+      prefix = 'W/o';
     } else if (selectedRelationship === 'daughter') {
-      prefix = 'd/o';
+      prefix = 'D/o';
     }
 
     // Get the input value
@@ -61,7 +61,7 @@
       <br>
       <div class="mb-3">
         <label for="relationshipDropdown" class="form-label">Relationship</label>
-        <select class="form-select" id="relationshipDropdown" style="width:100px">
+        <select class="form-select" id="relationshipDropdown" style="width:100px" name="Relationship">
           <option value="son">Son</option>
           <option value="daughter">Daughter</option>
           <option value="wife">Wife</option>
