@@ -69,6 +69,10 @@ app.get('/insurance',function(req,res){
 })
 
 
+app.get('/Gst',function(req,res){
+    res.render('gst')
+})
+
 app.get('/DoctorRecord',async function(req,res)
 {
     const doctordata=await db.getDb().collection('doctor').find().toArray();
