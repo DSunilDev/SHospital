@@ -73,6 +73,16 @@ app.get('/Gst',function(req,res){
     res.render('gst')
 })
 
+app.get('/GstBill',function(req,res){
+    res.render('gstbill')
+})
+
+app.get('/GstRecord',function(req,res){
+    res.render('gstrecord')
+})
+
+
+
 app.get('/DoctorRecord',async function(req,res)
 {
     const doctordata=await db.getDb().collection('doctor').find().toArray();
