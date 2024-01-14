@@ -25,3 +25,6 @@ Prioritize data security with robust user authentication and access control mech
 Elevating the Healthcare Experience :
 
 Sarvana Hospital Centralized Software stands as a beacon of healthcare technology, dedicated to elevating patient care, amplifying administrative efficiency, and redefining the overall healthcare experience.
+
+
+GST Management :
