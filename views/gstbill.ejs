@@ -156,14 +156,23 @@
         <div id="billNumber"></div> <!-- Display Bill Number -->
         <div id="cartItems">Add product to begin</div>
         <div id="subtotal">Subtotal: ₹0.00</div>
-        <br><br>
+        <br>
         <!-- Generate Invoice Button -->
         <button type="button" onclick="generateInvoice()">Generate Invoice</button>
     </div>
 
     <script>
-        let billCounter = 0; // Counter for bill numbers
-
+        // Load the current bill counter from localStorage or initialize it to 1
+        let billCounter = parseInt(localStorage.getItem('billCounter')) || 1;
+    
+        function initialize() {
+            // Call initialize function to set the initial bill number
+            updateBillNumber();
+        }
+    
+        // Call the initialize function when the page loads
+        window.onload = initialize;
+    
         function addToCart() {
             // Get values from form inputs
             const productName = document.getElementById('productName').value;
@@ -173,29 +182,29 @@
             const gstPercentage = gstPercentageElement.value === 'other' ? parseFloat(prompt('Enter GST Percentage')) : parseFloat(gstPercentageElement.value);
             const batchNumber = document.getElementById('batchNumber').value;
             const expiryDate = document.getElementById('expiryDate').value || 'N/A'; // Default to 'N/A' if not provided
-
+    
             // Check if any of the required fields are empty
             if (!productName || isNaN(quantity) || isNaN(amount) || isNaN(gstPercentage) || !batchNumber) {
                 alert('Add a product');
                 return;
             }
-
+    
             // Increment the bill counter and update the bill number
             billCounter++;
             updateBillNumber();
-
+    
             // Calculate CGST and SGST
             const cgst = gstPercentage / 2;
             const sgst = gstPercentage / 2;
-
+    
             // Calculate total amount including CGST and SGST
             const totalAmount = calculateTotalAmount(amount, quantity, cgst, sgst);
-
+    
             // Create a new cart item
             const cartItem = document.createElement('div');
             cartItem.classList.add('cart-item');
             cartItem.innerHTML = `<strong>${productName}</strong> - Quantity: ${quantity}, Batch: ${batchNumber}, Expiry: ${expiryDate}, Amount: ₹${amount.toFixed(2)}, CGST: ${cgst}%, SGST: ${sgst}%, Total: ₹${totalAmount.toFixed(2)}`;
-            
+    
             // Add Remove button
             const removeButton = document.createElement('button');
             removeButton.classList.add('remove-button');
@@ -204,13 +213,13 @@
                 cartItem.remove();
                 updateSubtotal();
             };
-
+    
             // Append the remove button to the cart item
             cartItem.appendChild(removeButton);
-
+    
             // Append the cart item to the cart container
             document.getElementById('cartItems').appendChild(cartItem);
-
+    
             // Clear the form fields
             document.getElementById('productName').value = '';
             document.getElementById('quantity').value = '';
@@ -218,85 +227,89 @@
             document.getElementById('gstPercentage').value = '12'; // Set default GST percentage to 12
             document.getElementById('batchNumber').value = '';
             document.getElementById('expiryDate').value = '';
-
+    
             // Update the subtotal
             updateSubtotal();
         }
-
+    
         function calculateTotalAmount(amount, quantity, cgst, sgst) {
             // Calculate total amount including CGST and SGST
             const totalAmount = (amount * quantity) + ((amount * cgst * quantity) / 100) + ((amount * sgst * quantity) / 100);
             return totalAmount;
         }
-
+    
         function calculateSubtotal() {
             // Get quantity, amount, and GST, calculate subtotal
             const quantity = parseFloat(document.getElementById('quantity').value);
             const amount = parseFloat(document.getElementById('amount').value);
             const gstPercentageElement = document.getElementById('gstPercentage');
             const gstPercentage = gstPercentageElement.value === 'other' ? parseFloat(prompt('Enter GST Percentage')) : parseFloat(gstPercentageElement.value);
-
+    
             // Calculate CGST and SGST
             const cgst = gstPercentage / 2;
             const sgst = gstPercentage / 2;
-
+    
             // Calculate subtotal
             const subtotal = calculateTotalAmount(amount, quantity, cgst, sgst);
-
+    
             // Display subtotal
             document.getElementById('subtotal').innerText = `Subtotal: ₹${subtotal.toFixed(2)}`;
         }
-
+    
         function updateSubtotal() {
             // Update subtotal when a new item is added to the cart
             const cartItems = document.getElementsByClassName('cart-item');
             let totalSubtotal = 0;
-
+    
             for (let i = 0; i < cartItems.length; i++) {
                 const itemText = cartItems[i].innerText;
                 const totalMatch = itemText.match(/Total: ₹([\d.]+)/);
-
+    
                 if (totalMatch) {
                     totalSubtotal += parseFloat(totalMatch[1]);
                 }
             }
-
+    
             // Display the updated subtotal
             document.getElementById('subtotal').innerText = `Subtotal: ₹${totalSubtotal.toFixed(2)}`;
         }
-
+    
         function updateCartPatientName() {
             // Update patient name in the cart as soon as it is entered
             const patientName = document.getElementById('patientName').value;
             document.getElementById('cartItems').innerHTML = `<strong>Patient:</strong> ${patientName}`;
         }
-
+    
         function updateCartDate() {
             // Update billing date in the cart as soon as it is entered
             const billingDate = document.getElementById('billingDate').value;
             document.getElementById('cartItems').innerHTML += ` - <strong>Billing Date:</strong> ${formatDate(billingDate)}`;
         }
-
+    
         function generateInvoice() {
             // Increment the bill counter and update the bill number
             billCounter++;
             updateBillNumber();
-
+    
             // Implement your logic for generating the final invoice here
             alert('Invoice generated successfully!');
         }
-
+    
         function formatDate(dateString) {
             const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
             const formattedDate = new Date(dateString).toLocaleDateString('en-IN', options);
             return formattedDate;
         }
-
+    
         function updateBillNumber() {
             // Display the updated bill number
             document.getElementById('billNumber').innerText = `Bill Number: BILL-${billCounter.toString().padStart(2, '0')}`;
+    
+            // Store the current bill counter in localStorage
+            localStorage.setItem('billCounter', billCounter.toString());
         }
     </script>
+    
 
     <!-- Footer -->
     <footer>
@@ -304,6 +317,7 @@
     </footer>
 </body>
 </html>
+
 <script>
     function generateInvoice() {
         // Increment the bill counter and update the bill number
@@ -314,19 +328,23 @@
         const patientName = document.getElementById('patientName').value;
         const billingDate = document.getElementById('billingDate').value;
 
+        // Format the billing date as MM-yyyy
+        const formattedBillingDate = formatDate(billingDate, 'MM-yyyy');
+
         // Get cart information
         const cartItems = document.getElementsByClassName('cart-item');
         const itemsArray = [];
 
         for (let i = 0; i < cartItems.length; i++) {
             const itemText = cartItems[i].innerText;
-            itemsArray.push(itemText);
+            const itemWithoutRemoveButton = itemText.replace(/Remove/, ''); // Remove "Remove" button text
+            const itemWithoutLabels = itemWithoutRemoveButton.replace(/Quantity:|Batch:|Expiry:|Amount:|CGST:|SGST:|Total:/g, ''); // Remove specific labels
+            itemsArray.push(itemWithoutLabels);
         }
 
-        // Open a new window for the invoice
-        const invoiceWindow = window.open('', '_blank');
-        invoiceWindow.document.write(`
-            <!DOCTYPE html>
+        // Create a printable document
+        const printDocument = document.createElement('div');
+        printDocument.innerHTML = `
             <html lang="en">
             <head>
                 <meta charset="UTF-8">
@@ -341,6 +359,11 @@
                     .invoice-header {
                         text-align: center;
                         margin-bottom: 20px;
+                    }
+
+                    .logo {
+                        max-width: 100px; /* Adjust the width as needed */
+                        margin-right: 20px;
                     }
 
                     .invoice-details {
@@ -369,11 +392,12 @@
             </head>
             <body>
                 <div class="invoice-header">
+                    <img class="logo" src="imgs/gsticon.png" alt="Logo"> <!-- Add your logo path here -->
                     <h2>Saravana Hospital Invoice</h2>
                 </div>
                 <div class="invoice-details">
                     <p><strong>Patient:</strong> ${patientName}</p>
-                    <p><strong>Billing Date:</strong> ${formatDate(billingDate)}</p>
+                    <p><strong>Billing Date:</strong> ${formattedBillingDate}</p>
                     <p><strong>Bill Number:</strong> BILL-${billCounter.toString().padStart(2, '0')}</p>
                 </div>
                 <table class="invoice-items">
@@ -385,11 +409,12 @@
                             <th>Amount</th>
                             <th>CGST</th>
                             <th>SGST</th>
+                            <th>Price</th>
                         </tr>
                     </thead>
                     <tbody>
                         ${itemsArray.map(item => {
-                            const [product, quantity, batch, expiry, amount, cgst, sgst, total] = item.split(',');
+                            const [product, quantity, batch, expiry, amount, cgst, sgst] = item.split(',');
                             return `
                                 <tr>
                                     <td>${product}</td>
@@ -411,6 +436,13 @@
                 </footer>
             </body>
             </html>
-        `);
+        `;
+
+        // Open the print window
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(printDocument.innerHTML);
+        printWindow.document.close(); // Close the document stream to enable printing
+        printWindow.print();
     }
 </script>
+
