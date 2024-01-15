@@ -160,9 +160,13 @@
         <br>
         <!-- Generate Invoice Button -->
         <button type="button" onclick="generateInvoice()">Generate Invoice</button>
+        <br><br><br>
+<!-- Submit Invoice Button -->
+<button type="button" onclick="submitInvoice()">Submit Invoice</button>
     </div>
 
     <script>
+        let cart=[];
         // Load the current bill counter from localStorage or initialize it to 1
         let billCounter = parseInt(localStorage.getItem('billCounter')) || 1;
     
@@ -290,60 +294,17 @@
         function generateInvoice() {
     // Check if there are products in the cart
     const cartItems = document.getElementsByClassName('cart-item');
-
     if (cartItems.length > 0) {
         // Increment the bill counter and update the bill number
         billCounter++;
         updateBillNumber();
 
-        // Get patient information
-        const patientName = document.getElementById('patientName').value;
-        const billingDate = document.getElementById('billingDate').value;
-
-        // Format the billing date as MM-yyyy
-        const formattedBillingDate = formatDate(billingDate, 'MM-yyyy');
-
-        // Get cart information
-        const itemsArray = [];
-
-        for (let i = 0; i < cartItems.length; i++) {
-            const itemText = cartItems[i].innerText;
-            const itemWithoutRemoveButton = itemText.replace(/Remove/, ''); // Remove "Remove" button text
-            const itemWithoutLabels = itemWithoutRemoveButton.replace(/Quantity:|Batch:|Expiry:|Amount:|CGST:|SGST:|Total:/g, ''); // Remove specific labels
-            itemsArray.push(itemWithoutLabels);
-        }
-
-        // Create a data object to send to the server
-        const dataToSend = {
-            patientName: patientName,
-            billingDate: formattedBillingDate,
-            billNumber: `BILL-${billCounter.toString().padStart(2, '0')}`,
-            items: itemsArray
-        };
-
-        // Make an AJAX request to the server
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/addgstdata', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    // Handle the successful response from the server
-                    alert('Invoice generated successfully!');
-                } else {
-                    // Handle any error that occurred during the request
-                    alert('Error generating the invoice. Please try again.');
-                }
-            }
-        };
-
-        xhr.send(JSON.stringify(dataToSend));
+        // Implement your logic for generating the final invoice here
+        alert('Invoice generated successfully!');
     } else {
         alert('Add at least one product to the cart before generating an invoice.');
     }
 }
-
     
         function formatDate(dateString) {
             const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -505,5 +466,44 @@
             document.getElementById('subtotal').innerText = 'Subtotal: ₹0.00';
         };
     }
+
+    function submitInvoice() {
+    // Get additional data from form fields
+    const patientName = document.getElementById('patientName').value;
+    const billingDate = document.getElementById('billingDate').value;
+
+    // Check if there are products in the cart
+    if (cart.length > 0) {
+        // Combine cart data with additional details
+        const invoiceData = {
+            patientName,
+            billingDate,
+            cart,
+        };
+
+        // Send the combined data to the server
+        fetch('/addgstdata', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ invoiceData }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response from the server (if needed)
+            console.log('Invoice data submitted successfully:', data);
+            
+            // Clear the cart and update the display
+            cart = [];
+            updateCartDisplay();
+        })
+        .catch(error => {
+            console.error('Error submitting invoice data:', error);
+        });
+    } else {
+        alert('Add at least one product to the cart before submitting the invoice.');
+    }
+}
 </script>
 

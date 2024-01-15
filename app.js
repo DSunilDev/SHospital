@@ -81,6 +81,21 @@ app.get('/GstRecord',function(req,res){
     res.render('gstrecord')
 })
 
+app.post('/addgstdata', async function (req, res) {
+    try {
+        const invoiceData = req.body.invoiceData;
+
+        // Insert invoice data into the "gst" collection
+        await db.getDb().collection('gst').insertOne(invoiceData);
+
+        // Respond with a success message
+        res.json({ success: true, message: 'Invoice data submitted successfully.' });
+    } catch (error) {
+        console.error('Error submitting invoice data:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+});
+
 app.get('/DoctorRecord',async function(req,res)
 {
     const doctordata=await db.getDb().collection('doctor').find().toArray();
