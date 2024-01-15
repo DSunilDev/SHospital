@@ -135,6 +135,7 @@
             <select id="gstPercentage" name="gstPercentage" onchange="calculateSubtotal()" required>
                 <option value="12">12%</option>
                 <option value="6">6%</option>
+                <option value="5">5%</option>
                 <option value="other">Other</option>
             </select>
             <br><br>
@@ -450,6 +451,17 @@
         printWindow.document.write(printDocument.innerHTML);
         printWindow.document.close(); // Close the document stream to enable printing
         printWindow.print();
+
+        
+        printWindow.onafterprint = function () {
+            printWindow.close();
+            
+            // Clear patient information and cart items
+            document.getElementById('patientName').value = '';
+            document.getElementById('billingDate').value = '';
+            document.getElementById('cartItems').innerHTML = 'Add product to begin';
+            document.getElementById('subtotal').innerText = 'Subtotal: ₹0.00';
+        };
     }
 </script>
 
