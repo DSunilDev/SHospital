@@ -80,8 +80,48 @@ app.get('/GstBill',function(req,res){
 app.get('/GstRecord',function(req,res){
     res.render('gstrecord')
 })
+/*
+app.post('/addgstdata', async (req, res) => {
+    try {
+        // Extract data from the request body
+        const gstData = req.body;
+        const patientName = gstData.patientName;
+        const billingDate = gstData.billingDate;
+        const billNumber = gstData.billNumber;
+        const cartItems = gstData.cartItems;
 
+        //'gst' is the name of your collection
+        const collection = db.getDb().collection('gst');
 
+        // Construct the data to be inserted
+        const gstDataToInsert = {
+            PatientName: patientName,
+            BillingDate: billingDate,
+            BillNumber: billNumber,
+            CartItems: cartItems.map(item => {
+                return {
+                    Product: item.product,
+                    Quantity: item.quantity,
+                    Batch: item.batch,
+                    Expiry: item.expiry,
+                    Amount: item.amount,
+                    CGST: item.cgst,
+                    SGST: item.sgst,
+                    Total: item.total
+                };
+            })
+        };
+
+        // Insert data into the 'gst' collection
+        await collection.insertOne(gstDataToInsert);
+
+        // Redirect or send a response as needed
+        res.redirect('/GSTData');
+    } catch (error) {
+        console.error('Error during database insertion:', error);
+        res.status(500).send('Internal Server Error');
+    }
+}); */
 
 app.get('/DoctorRecord',async function(req,res)
 {
