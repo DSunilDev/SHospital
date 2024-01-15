@@ -287,13 +287,20 @@
         }
     
         function generateInvoice() {
-            // Increment the bill counter and update the bill number
-            billCounter++;
-            updateBillNumber();
+    // Check if there are products in the cart
+    const cartItems = document.getElementsByClassName('cart-item');
     
-            // Implement your logic for generating the final invoice here
-            alert('Invoice generated successfully!');
-        }
+    if (cartItems.length > 0) {
+        // Increment the bill counter and update the bill number
+        billCounter++;
+        updateBillNumber();
+
+        // Implement your logic for generating the final invoice here
+        alert('Invoice generated successfully!');
+    } else {
+        alert('Add at least one product to the cart before generating an invoice.');
+    }
+}
     
         function formatDate(dateString) {
             const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
