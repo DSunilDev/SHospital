@@ -161,8 +161,6 @@
         <!-- Generate Invoice Button -->
         <button type="button" onclick="generateInvoice()">Generate Invoice</button>
         <br><br><br>
-<!-- Submit Invoice Button -->
-<button type="button" onclick="submitInvoice()">Submit Invoice</button>
     </div>
 
     <script>
@@ -331,31 +329,35 @@
 
 <script>
     function generateInvoice() {
-        // Increment the bill counter and update the bill number
-        billCounter++;
-        updateBillNumber();
-
-        // Get patient information
         const patientName = document.getElementById('patientName').value;
-        const billingDate = document.getElementById('billingDate').value;
+    const billingDate = document.getElementById('billingDate').value;
 
-        // Format the billing date as MM-yyyy
-        const formattedBillingDate = formatDate(billingDate, 'MM-yyyy');
+    // Format the billing date as MM-yyyy
+    const formattedBillingDate = formatDate(billingDate, 'MM-yyyy');
 
-        // Get cart information
-        const cartItems = document.getElementsByClassName('cart-item');
-        const itemsArray = [];
+    // Get cart information
+    const cartItems = document.getElementsByClassName('cart-item');
+    const itemsArray = [];
+    let totalCGST = 0;
+    let totalSGST = 0;
 
-        for (let i = 0; i < cartItems.length; i++) {
-            const itemText = cartItems[i].innerText;
-            const itemWithoutRemoveButton = itemText.replace(/Remove/, ''); // Remove "Remove" button text
-            const itemWithoutLabels = itemWithoutRemoveButton.replace(/Quantity:|Batch:|Expiry:|Amount:|CGST:|SGST:|Total:/g, ''); // Remove specific labels
-            itemsArray.push(itemWithoutLabels);
-        }
+    for (let i = 0; i < cartItems.length; i++) {
+        const itemText = cartItems[i].innerText;
+        const itemWithoutRemoveButton = itemText.replace(/Remove/, ''); // Remove "Remove" button text
+        const itemWithoutLabels = itemWithoutRemoveButton.replace(/Quantity:|Batch:|Expiry:|Amount:|CGST:|SGST:|Total:/g, ''); // Remove specific labels
+        itemsArray.push(itemWithoutLabels);
 
-        // Create a printable document
-        const printDocument = document.createElement('div');
-        printDocument.innerHTML = `
+        // Extract CGST and SGST values
+        const [, , , , amount, cgst, sgst] = itemWithoutLabels.split(',');
+
+        // Update total CGST and SGST
+        totalCGST += parseFloat(cgst) || 0;
+        totalSGST += parseFloat(sgst) || 0;
+    }
+
+    // Create a printable document
+    const printDocument = document.createElement('div');
+    printDocument.innerHTML =`
             <html lang="en">
             <head>
                 <meta charset="UTF-8">
@@ -403,8 +405,10 @@
             </head>
             <body>
                 <div class="invoice-header">
-                    <img class="logo" src="imgs/gsticon.png" alt="Logo"> <!-- Add your logo path here -->
-                    <h2>Saravana Hospital Invoice</h2>
+                    <img class="logo" src="imgs/gsticon.png" alt="Logo"> 
+                    <h2>Saravana Hospital </h2>
+                    <h5>Invoice</h5>
+                    <h5>GSTIN:AAAABBBBCCCC</h5>
                 </div>
                 <div class="invoice-details">
                     <p><strong>Patient:</strong> ${patientName}</p>
@@ -414,7 +418,8 @@
                 <table class="invoice-items">
                     <thead>
                         <tr>
-                            <th>Product , Quantity</th>
+                            <th>S No.</th>
+                            <th>Product Quantity</th>
                             <th>Batch</th>
                             <th>Expiry</th>
                             <th>Amount</th>
@@ -424,27 +429,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        ${itemsArray.map(item => {
+                        ${itemsArray.map((item,index) => {
                             const [product, quantity, batch, expiry, amount, cgst, sgst] = item.split(',');
                             return `
                                 <tr>
+                                    <td>${index + 1}</td>
                                     <td>${product}</td>
                                     <td>${quantity}</td>
                                     <td>${batch}</td>
                                     <td>${expiry}</td>
-                                    <td>${amount}</td>
                                     <td>${cgst}</td>
                                     <td>${sgst}</td>
+                                    <td>${amount}</td>
                                 </tr>`;
                         }).join('')}
                     </tbody>
                 </table>
                 <div class="invoice-total">
+                    <p><strong>Total CGST:</strong> ₹${totalCGST.toFixed(2)}</p>
+                    <p><strong>Total SGST:</strong> ₹${totalCGST.toFixed(2)}</p> <!--For Now only-->
                     <p><strong>Subtotal:</strong> ₹${document.getElementById('subtotal').innerText.split('₹')[1]}</p>
                 </div>
+                <center>
                 <footer>
                     <p>&copy; 2024 Saravana Hospital. All rights reserved.</p>
+                    <p>Address: 1/134 Mudhaliyar Street , Dhalavaipuram -626 188 </p>
+                    <p>Phone number : 04563-244446 <br> Gmail : sarvanahospital1234@gmail.com </p>
                 </footer>
+                </center>
             </body>
             </html>
         `;
@@ -455,7 +467,6 @@
         printWindow.document.close(); // Close the document stream to enable printing
         printWindow.print();
 
-        
         printWindow.onafterprint = function () {
             printWindow.close();
             
@@ -466,44 +477,4 @@
             document.getElementById('subtotal').innerText = 'Subtotal: ₹0.00';
         };
     }
-
-    function submitInvoice() {
-    // Get additional data from form fields
-    const patientName = document.getElementById('patientName').value;
-    const billingDate = document.getElementById('billingDate').value;
-
-    // Check if there are products in the cart
-    if (cart.length > 0) {
-        // Combine cart data with additional details
-        const invoiceData = {
-            patientName,
-            billingDate,
-            cart,
-        };
-
-        // Send the combined data to the server
-        fetch('/addgstdata', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ invoiceData }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Handle the response from the server (if needed)
-            console.log('Invoice data submitted successfully:', data);
-            
-            // Clear the cart and update the display
-            cart = [];
-            updateCartDisplay();
-        })
-        .catch(error => {
-            console.error('Error submitting invoice data:', error);
-        });
-    } else {
-        alert('Add at least one product to the cart before submitting the invoice.');
-    }
-}
 </script>
-
