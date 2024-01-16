@@ -7,6 +7,7 @@ const { ObjectId } = require('mongodb');
 
 let patientCounter = 0;
 let outpatientCounter = 0; 
+const now = new Date();
 
 app.use(express.static('styles'));
 
@@ -319,6 +320,7 @@ const formattedCounter = outpatientCounter.toString().padStart(2, '0');
 
 // Modified code to take only the last two digits of the year
 const yearLastTwoDigits = now.getFullYear().toString().slice(-2);
+const month = (now.getMonth() + 1).toString().padStart(2, '0');
 
 // Create a Unique UHID in the format "yy-mm-01", "yy-mm-02", etc.
 const uhid = `${yearLastTwoDigits}${month}${formattedCounter}`;
@@ -326,12 +328,13 @@ const uhid = `${yearLastTwoDigits}${month}${formattedCounter}`;
 // Set the prefix based on the selected relationship
 let prefix = '';
 if (selectedRelationship === 'son') {
-  prefix = 's/o';
+  prefix = 'S/o';
 } else if (selectedRelationship === 'wife') {
-  prefix = 'w/o';
+  prefix = 'W/o';
 } else if (selectedRelationship === 'daughter') {
-  prefix = 'd/o';
+  prefix = 'D/o';
 }
+
 
 // Combine the prefix and guardian name into a single variable
 const fullGuardianName = `${prefix} ${Guard}`;
