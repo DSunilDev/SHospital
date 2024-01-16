@@ -302,56 +302,54 @@ app.post('/addInPatient',async function(req,res)
 })
 
 app.post('/addOutPatient',async function(req,res)
-{
-  
-    const outpatientdata=req.body;
-    const pname=outpatientdata.Name;
-    const page=outpatientdata.Age;
-    const selectedRelationship = outpatientdata.Relationship;
-    const Guard=outpatientdata.Guardian;
-    const reas=outpatientdata.Reason;
-    const cons=outpatientdata.Consulted;
-    const address=outpatientdata.Address;
-    const phon=outpatientdata.ph;
-    const date=outpatientdata.date;
+{  
+ const outpatientdata = req.body;
+const pname = outpatientdata.Name;
+const page = outpatientdata.Age;
+const selectedRelationship = outpatientdata.Relationship;
+const Guard = outpatientdata.Guardian;
+const reas = outpatientdata.Reason;
+const cons = outpatientdata.Consulted;
+const address = outpatientdata.Address;
+const phon = outpatientdata.ph;
+const date = outpatientdata.date;
 
-    outpatientCounter++;
-    const formattedCounter = outpatientCounter.toString().padStart(2, '0');
-  
-    // Create a Unique UHID in the format "yyyy-mm-01", "yyyy-mm-02", etc.
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const uhid = `${year}${month}${formattedCounter}`;
+outpatientCounter++;
+const formattedCounter = outpatientCounter.toString().padStart(2, '0');
 
+// Modified code to take only the last two digits of the year
+const yearLastTwoDigits = now.getFullYear().toString().slice(-2);
 
-    // Set the prefix based on the selected relationship
-    let prefix = '';
-    if (selectedRelationship === 'son') {
-      prefix = 's/o';
-    } else if (selectedRelationship === 'wife') {
-      prefix = 'w/o';
-    } else if (selectedRelationship === 'daughter') {
-      prefix = 'd/o';
-    }
-  
-    // Combine the prefix and guardian name into a single variable
-    const fullGuardianName = `${prefix} ${Guard}`;
-  
-    const outpatientd={
-        UHID: uhid, 
-        PatientName:pname,
-        PatientAge:page,
-        Guardian:fullGuardianName,
-        Reason:reas,
-        Consulted:cons,
-        Address:address,
-        Phonenumber:phon,
-        Date:date
-    }
+// Create a Unique UHID in the format "yy-mm-01", "yy-mm-02", etc.
+const uhid = `${yearLastTwoDigits}${month}${formattedCounter}`;
 
-    await db.getDb().collection('outpatient').insertOne(outpatientd)
-    res.redirect('/OPdata')
+// Set the prefix based on the selected relationship
+let prefix = '';
+if (selectedRelationship === 'son') {
+  prefix = 's/o';
+} else if (selectedRelationship === 'wife') {
+  prefix = 'w/o';
+} else if (selectedRelationship === 'daughter') {
+  prefix = 'd/o';
+}
+
+// Combine the prefix and guardian name into a single variable
+const fullGuardianName = `${prefix} ${Guard}`;
+
+const outpatientd = {
+  UHID: uhid,
+  PatientName: pname,
+  PatientAge: page,
+  Guardian: fullGuardianName,
+  Reason: reas,
+  Consulted: cons,
+  Address: address,
+  Phonenumber: phon,
+  Date: date
+};
+
+await db.getDb().collection('outpatient').insertOne(outpatientd);
+res.redirect('/OPdata');
 })
 
 
