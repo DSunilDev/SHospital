@@ -304,7 +304,7 @@ app.post('/addInPatient',async function(req,res)
 
 app.post('/addOutPatient',async function(req,res)
 {  
- const outpatientdata = req.body;
+const outpatientdata = req.body;
 const pname = outpatientdata.Name;
 const page = outpatientdata.Age;
 const selectedRelationship = outpatientdata.Relationship;
