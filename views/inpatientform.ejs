@@ -45,8 +45,9 @@
 <body>
   <%- include('navbar') %>
     <div class="inpatientform">
-        <center><h2><b><i>InPatient Form </i></b></h2></center>
+        <center><h2><b>InPatient Form </b></h2></center>
         <center>
+          <br>
     <div class="mb-3">
       <form method="POST" action="/addInPatient">
         <label for="exampleFormControlInput1" class="form-label">Name</label>
@@ -87,6 +88,10 @@
     <label for="exampleFormControlInput1" class="form-label">Diagnosis</label>
     <input type="text" class="form-control" id="Guardian" placeholder="Diagnosis" name="Diagnosis" required>
   </div>
+  <label for="exampleFormControlTextarea1" class="form-label">Discharge Summary</label>
+      <div class="input-group mb-3" id="P">
+        <input type="file" class="form-control" id="DischargeSummary">
+      </div>
   <div class="dropdown">
     <label for="exampleFormControlInput1" class="form-label">Primary Consultant</label>
     <select name="Consulted">
@@ -96,7 +101,10 @@
     </select>
   </div>
   <label>Patient Type : <b>InPatient </b></label>
+  <br><br>
+  <center>
   <button class="btn btn-success" id="Submit">Submit</button>
+  </center>
 </form>
 </center>
 </div>
