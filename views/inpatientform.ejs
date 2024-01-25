@@ -41,6 +41,18 @@
       alert('Please enter a Guardian Name.');
     }
   }
+
+  function setCurrentDateTime() {
+            var currentDate = new Date();
+            var formattedDate = currentDate.toISOString().split('T')[0];
+            
+            var hours = currentDate.getHours();
+            var minutes = currentDate.getMinutes();
+            var formattedTime = (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes;
+
+            document.getElementById('Date').value = formattedDate;
+            document.getElementById('Time').value = formattedTime;
+        }
 </script>
 <body>
   <%- include('navbar') %>
@@ -79,6 +91,9 @@
   <div class="mb-3">
     <label for="exampleFormControlInput1" class="form-label">Date of Admission</label>
     <input type="date" class="form-control" id="Date" name="doj" required>
+    <br>
+    <button type="button" class="btn btn-primary" onclick="setCurrentDateTime()">Set Now</button>
+    <br>
     <label for="exampleFormControlInput1" class="form-label">Time</label>
     <input type="time" class="form-control" id="Time" name="Time" required>
     <label for="exampleFormControlInput1" class="form-label">Date of Discharge</label>
