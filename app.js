@@ -218,6 +218,7 @@ app.post('/addsurgery',async function(req,res)
     const suregonname=surgerydata.Surgeon;
     const anesthesist=surgerydata.Anesthesist;
     const d=surgerydata.Diagnosis;
+    const p=surgerydata.Procedure;
 
     const surgeryd={
         Patientname:patientname,
@@ -227,7 +228,8 @@ app.post('/addsurgery',async function(req,res)
         dateofdischarge:dod,
         surgeon:suregonname,
         anesthesist:anesthesist,
-        diagnosis:d
+        diagnosis:d,
+        procedure:p
     };
 
     await db.getDb().collection('surgery').insertOne(surgeryd);
