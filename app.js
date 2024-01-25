@@ -256,7 +256,7 @@ app.post('/addInPatient',async function(req,res)
     const pname=inpatientdata.Name;
     const page=inpatientdata.Age;
     const pguard=inpatientdata.Guardian;
-    const reason=inpatientdata.Reason;
+    const Diagnosis=inpatientdata.Diagnosis;
     const Cons=inpatientdata.Consulted;
     const paddress=inpatientdata.Address;
     const phone=inpatientdata.ph;
@@ -289,7 +289,7 @@ app.post('/addInPatient',async function(req,res)
         PatientName:pname,
         PatientAge:page,
         Guardian:fullGuardianName,
-        Reason:reason,
+        Diagnosis:Diagnosis,
         Consulted:Cons,
         Address:paddress,
         Phonenumber:phone,
@@ -309,7 +309,7 @@ const pname = outpatientdata.Name;
 const page = outpatientdata.Age;
 const selectedRelationship = outpatientdata.Relationship;
 const Guard = outpatientdata.Guardian;
-const reas = outpatientdata.Reason;
+const diagnosis = outpatientdata.Diagnosis;
 const cons = outpatientdata.Consulted;
 const address = outpatientdata.Address;
 const phon = outpatientdata.ph;
@@ -344,7 +344,7 @@ const outpatientd = {
   PatientName: pname,
   PatientAge: page,
   Guardian: fullGuardianName,
-  Reason: reas,
+  Diagnosis: diagnosis,
   Consulted: cons,
   Address: address,
   Phonenumber: phon,
