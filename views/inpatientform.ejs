@@ -69,18 +69,6 @@
         <label for="exampleFormControlInput1" class="form-label">Guardian</label>
         <input type="text" class="form-control" id="Guardian" placeholder="Guardian Name" name="Guardian" required>
       </div>
-      <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Reason</label>
-        <input type="text" class="form-control" id="Guardian" placeholder="Reason" name="Reason" required>
-      </div>
-      <div class="dropdown">
-        <label for="exampleFormControlInput1" class="form-label">Consultant</label>
-        <select name="Consulted">
-          <%for(const d of doctors){%>
-            <option value="<%= d.doctorname %>"><%= d.doctorname %></option>
-            <%}%>
-        </select>
-      </div>
       <label for="exampleFormControlTextarea1" class="form-label">Address</label>
   <textarea class="form-control" id="Address" rows="3" placeholder="Address" name="Address" required></textarea>
   <div class="mb-3">
@@ -94,6 +82,18 @@
     <input type="time" class="form-control" id="Time" name="Time" required>
     <label for="exampleFormControlInput1" class="form-label">Date of Discharge</label>
     <input type="date" class="form-control" id="Date" name="dod">
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Diagnosis</label>
+    <input type="text" class="form-control" id="Guardian" placeholder="Diagnosis" name="Diagnosis" required>
+  </div>
+  <div class="dropdown">
+    <label for="exampleFormControlInput1" class="form-label">Primary Consultant</label>
+    <select name="Consulted">
+      <%for(const d of doctors){%>
+        <option value="<%= d.doctorname %>"><%= d.doctorname %></option>
+        <%}%>
+    </select>
   </div>
   <label>Patient Type : <b>InPatient </b></label>
   <button class="btn btn-success" id="Submit">Submit</button>
