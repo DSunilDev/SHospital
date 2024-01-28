@@ -1,9 +1,16 @@
-const express=require('express')
-const path=require('path')
-const app=express();
+const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
+const path = require('path');
+const app = express();
 const uuid = require('uuid');
-const db=require('./DATABASE/database.js');
+const db = require('./DATABASE/database.js');
 const { ObjectId } = require('mongodb');
+
+const server = http.createServer(app);
+const io = new Server(server);
+require = require('esm')(module /*, options*/);
+const Webcam = require('webcam-easy');
 
 let patientCounter = 0;
 let outpatientCounter = 0; 
@@ -69,6 +76,35 @@ app.get('/insurance',function(req,res){
     res.render('insurance')
 })
 
+/*BroadCast*/
+app.get('/broadcast', (req, res) => {
+    res.render('broadcast');
+  });
+  
+  app.get('/user-selection', (req, res) => {
+    res.render('user-selection');
+  });
+
+app.post('/start-call', (req, res) => {
+    const { username, purpose, selectedUser } = req.body;
+    // Store username, purpose, and selectedUser in the database or any other storage mechanism
+    res.redirect(`/broadcast?username=${username}&purpose=${purpose}&selectedUser=${selectedUser}`);
+});
+
+app.get('/check',function(req,res){
+    res.render('webcam')
+})
+
+io.on('connection', (socket) => {
+    socket.on('join', (data) => {
+        socket.join(data.room); // Join a room based on user selection
+        io.to(data.room).emit('userJoined', { username: data.username });
+    });
+
+    socket.on('signal', (data) => {
+        io.to(data.room).emit('signal', { signal: data.signal, username: data.username });
+    });
+});
 
 app.get('/Gst',function(req,res){
     res.render('gst')

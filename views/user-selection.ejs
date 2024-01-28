@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Selection</title>
+</head>
+<body>
+
+    <h1>User Selection</h1>
+
+    <form action="/start-call" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="purpose">Purpose:</label>
+        <input type="text" id="purpose" name="purpose" required>
+
+        <label for="selectedUser">Selected User:</label>
+        <input type="text" id="selectedUser" name="selectedUser" required>
+
+        <button type="submit">Start Call</button>
+    </form>
+
+    <video id="webcam" autoplay playsinline></video>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const webcam = devices.find(device => device.kind === 'videoinput');
+
+                const webcamElement = document.getElementById('webcam');
+
+                if (webcam) {
+                    // Use the webcam if available
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: webcam.deviceId } });
+                    webcamElement.srcObject = stream;
+                } else {
+                    // If no webcam is found, use the default video input (e.g., rear camera on a mobile device)
+                    const defaultStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    webcamElement.srcObject = defaultStream;
+                }
+            } catch (error) {
+                console.error('Error initializing webcam:', error);
+            }
+        });
+    </script>
+
+</body>
+</html>
