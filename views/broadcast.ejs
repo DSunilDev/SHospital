@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Broadcast</title>
-    <script src="https://cdn.jsdelivr.net/npm/simple-peer@10.1.2/simplepeer.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -27,10 +26,7 @@
         }
 
         #broadcast-page {
-            display: none; /* Initially hide the broadcast page */
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            z-index: 0;
         }
 
         h1, h4 {
@@ -49,23 +45,7 @@
             z-index: 2;
         }
 
-        #webcam-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .video-box {
-            margin: 10px;
-        }
-
-        .video-box video {
-            width: 300px;
-            height: 225px;
-            object-fit: cover;
-            border: 2px solid #fff;
-            border-radius: 10px;
+        #webcam {
             transition: opacity 0.5s ease-out;
         }
     </style>
@@ -81,19 +61,14 @@
             <label for="purpose">Purpose:</label>
             <input type="text" id="purpose" name="purpose" required>
             <br>
-            <label for="room-id">Room ID (Optional):</label>
-            <input type="text" id="room-id" name="room-id">
-            <br>
             <button type="button" onclick="submitDetails()">Submit</button>
-            <h4 id="room-id-display"></h4>
         </form>
     </div>
 
-    <div id="broadcast-page">
+    <div id="broadcast-page" style="display: none;">
         <h1>Broadcast Page</h1>
-        <h4 id="room-id-display-broadcast"></h4>
         <h3 id="ov-stat"></h3>
-        <div id="webcam-container"></div>
+        <video id="webcam" autoplay playsinline></video>
         <div id="info">
             <p id="username-info"></p>
             <p id="purpose-info"></p>
@@ -105,40 +80,34 @@
         <h4 id="status-text"></h4>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/simple-peer@10.1.2/simplepeer.min.js"></script>
     <script>
-        let roomId;
-        let peer;
-
         function submitDetails() {
             const detailsForm = document.getElementById('details-form');
             const broadcastPage = document.getElementById('broadcast-page');
-
-            // Retrieve user details and room ID from the form
+            
+            // Retrieve user details from the form
             const username = document.getElementById('username').value;
             const purpose = document.getElementById('purpose').value;
-            roomId = document.getElementById('room-id').value || generateRandomRoomId();
 
-            // Display the room ID during details entry
-            document.getElementById('room-id-display').textContent = `Room ID: ${roomId}`;
+            // Check if the details are valid (you can add more validation if needed)
+            if (username.trim() !== '' && purpose.trim() !== '') {
+                // Hide details form
+                detailsForm.style.display = 'none';
 
-            // Hide details form
-            detailsForm.style.display = 'none';
+                // Show the broadcast page
+                broadcastPage.style.display = 'block';
 
-            // Show the broadcast page
-            broadcastPage.style.display = 'flex';
-
-            // Display the room ID on the broadcast page
-            document.getElementById('room-id-display-broadcast').textContent = `Room ID: ${roomId}`;
-
-            // Initialize the broadcast page
-            initializeBroadcastPage(username, purpose);
+                // Initialize the broadcast page
+                initializeBroadcastPage(username, purpose);
+            } else {
+                alert('Please fill in all the details.');
+            }
         }
 
         function initializeBroadcastPage(username, purpose) {
             try {
-                const webcamContainer = document.getElementById('webcam-container');
-                console.log('webcamContainer:', webcamContainer);
+                const webcamElement = document.getElementById('webcam');
+                console.log('webcamElement:', webcamElement);
 
                 // Check if the getUserMedia API is available
                 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -147,6 +116,8 @@
                     // Try to access the front camera with audio
                     navigator.mediaDevices.getUserMedia(constraints)
                         .then(stream => {
+                            webcamElement.srcObject = stream;
+
                             // Display user and purpose information
                             document.getElementById('username-info').textContent = `User: ${username}`;
                             document.getElementById('purpose-info').textContent = `Purpose: ${purpose}`;
@@ -174,14 +145,14 @@
                                 if (videoTracks.some(track => track.enabled)) {
                                     // Stopping Video
                                     toggleVideoButton.textContent = 'Start Video';
-                                    webcamContainer.style.opacity = 0;
+                                    webcamElement.style.opacity = 0;
 
                                     // Delayed execution to match the transition duration
                                     setTimeout(() => {
                                         videoTracks.forEach(track => {
                                             track.enabled = false;
                                         });
-                                        webcamContainer.style.opacity = 1;
+                                        webcamElement.style.opacity = 1;
 
                                         // Display status text
                                         const status = 'Stopping Video';
@@ -189,14 +160,14 @@
                                     }, 500);
                                 } else {
                                     // Starting Video
-                                    webcamContainer.style.opacity = 0;
+                                    webcamElement.style.opacity = 0;
 
                                     // Delayed execution to match the transition duration
                                     setTimeout(() => {
                                         videoTracks.forEach(track => {
                                             track.enabled = true;
                                         });
-                                        webcamContainer.style.opacity = 1;
+                                        webcamElement.style.opacity = 1;
                                         toggleVideoButton.textContent = 'Mute Video';
 
                                         // Display status text
@@ -217,12 +188,6 @@
                                     statusText.textContent = '';
                                 }, 1000); // Display for 1 second
                             }
-
-                            // Create video element for the current user
-                            createVideoElement(stream, 'local');
-
-                            // Start signaling and set up WebRTC when the user is ready
-                            startSignaling();
                         })
                         .catch(error => {
                             console.error('Error initializing webcam:', error);
@@ -233,86 +198,6 @@
             } catch (error) {
                 console.error('Error initializing webcam:', error);
             }
-        }
-
-        function createVideoElement(stream, type) {
-            const videoContainer = document.getElementById('webcam-container');
-
-            // Create a new video element for the current user
-            const videoElement = document.createElement('video');
-            videoElement.srcObject = stream;
-            videoElement.autoplay = true;
-            videoElement.playsinline = true;
-            videoElement.style.width = '300px';
-            videoElement.style.height = '225px';
-            videoElement.style.objectFit = 'cover';
-            videoElement.style.border = '2px solid #fff';
-            videoElement.style.borderRadius = '10px';
-            videoElement.className = 'video-box';
-
-            // Append the video element to the container
-            videoContainer.appendChild(videoElement);
-
-            if (type === 'local') {
-                videoElement.muted = true; // Mute the local user's video
-            } else {
-                // For remote user, create a SimplePeer instance and start signaling
-                peer = new SimplePeer({ initiator: true, trickle: false, stream: stream });
-
-                peer.on('signal', data => {
-                    // Send signaling data to the signaling server or the other user
-                    // In this example, we log the data to the console for simplicity
-                    console.log('SIGNAL', JSON.stringify(data));
-                });
-
-                peer.on('connect', () => {
-                    console.log('CONNECTED');
-                });
-
-                peer.on('data', data => {
-                    // Handle data received from the other user
-                    console.log('DATA', data);
-                });
-
-                peer.on('stream', remoteStream => {
-                    // Create a video element for the remote user
-                    createVideoElement(remoteStream, 'remote');
-                });
-            }
-        }
-
-        function startSignaling() {
-            // Replace this with your signaling server logic or use a peer-to-peer approach
-            // For simplicity, we'll log signaling data to the console
-
-            // If a room ID is specified, include it in the signaling data
-            const signalData = { room: roomId };
-
-            // Log the signaling data to the console
-            console.log('SIGNAL', JSON.stringify(signalData));
-
-            // Replace this with actual signaling logic based on your application's architecture
-            // You may use a signaling server, WebSocket, or any other method to exchange signaling data
-
-            // For this example, we'll simulate the other user receiving the signaling data
-            // In a real scenario, the other user should receive the data through a signaling server or peer-to-peer communication
-
-            // Simulate the other user receiving the signaling data after a delay
-            setTimeout(() => {
-                // Simulated received signaling data
-                const receivedSignalData = { room: roomId };
-
-                // Log the received signaling data to the console
-                console.log('RECEIVED SIGNAL', JSON.stringify(receivedSignalData));
-
-                // Start signaling back
-                peer.signal(receivedSignalData);
-            }, 2000);
-        }
-
-        // Function to generate a random room ID (for default use)
-        function generateRandomRoomId() {
-            return Math.random().toString(36).substring(7);
         }
     </script>
 
