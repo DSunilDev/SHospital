@@ -115,8 +115,8 @@ app.get('/GstBill',async function(req,res){
 res.render('gstbill',{doctors:doctordata})
 })
 
-app.get('/GstRecord',function(req,res){
-    res.render('gstrecord')
+app.get('/PurchaseGst',function(req,res){
+    res.render('purchasegst')
 })
 
 app.get('/DoctorRecord',async function(req,res)
