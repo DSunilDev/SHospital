@@ -1,0 +1,52 @@
+<!-- scanner.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scanner</title>
+</head>
+<body>
+  <div>
+    <!-- Webcam video feed -->
+    <video id="webcam" width="400" height="300" autoplay playsinline></video>
+
+    <!-- Capture button -->
+    <button onclick="capturePhoto()">Capture</button>
+  </div>
+</body>
+<script>
+  // Webcam logic using getUserMedia
+
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+    .then(function (stream) {
+      var video = document.getElementById('webcam');
+      video.srcObject = stream;
+    })
+    .catch(function (error) {
+      console.error('Error accessing webcam:', error);
+    });
+
+  // Example: Capture photo and call capturePrescription function
+  function capturePhoto() {
+    var canvas = document.createElement('canvas');
+    var video = document.getElementById('webcam');
+    var context = canvas.getContext('2d');
+
+    // Set canvas dimensions to match video feed
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    // Capture the current frame from the video feed
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Convert the captured frame to a data URL
+    var photoDataUrl = canvas.toDataURL('image/jpeg');
+
+    // Call capturePrescription function in the main window
+    window.opener.capturePrescription(photoDataUrl);
+    
+    // Close the scanner window
+    window.close();
+  }
+</script>
+</html>

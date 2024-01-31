@@ -110,6 +110,13 @@ app.get('/Gst',function(req,res){
     res.render('gst')
 })
 
+//Scanning Window
+
+app.get('/scanner',function(req,res){
+    res.render('scanner')
+})
+
+
 app.get('/GstBill',async function(req,res){
     const doctordata=await db.getDb().collection('doctor').find().toArray();
 res.render('gstbill',{doctors:doctordata})
