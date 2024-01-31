@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--Database Requests yet to be made-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,14 +8,356 @@
     <link rel="icon" type="/images/favicon.icon" href="favicon/billicon.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    <title>GST Record</title>
+    <title>Purchase Bill</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        .form-container {
+            float: left;
+            width: 60%;
+            margin-bottom: 20px; /* Add margin at the bottom */
+        }
+
+        .cart-container {
+            float: right;
+            width: 35%;
+            margin-left: 5%;
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 40%;
+            padding: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            display: inline-block;
+            margin-bottom: 10px; /* Add margin to separate buttons */
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .cart-item {
+            margin-bottom: 10px;
+            position: relative; /* Make it relative to allow absolute positioning of the button */
+        }
+
+        .remove-button {
+            background-color: #ff6347; /* Tomato color */
+            color: white;
+            border: none;
+            padding: 5px 8px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 12px; /* Larger font size */
+        }
+
+        /* Clear floats */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* Add styles for the footer */
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+            background-color: #f1f1f1;
+            clear: both; /* Clear the floats */
+        }
+
+        /* Style for bold and larger subtotal */
+        #subtotal {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Style for the bill number */
+        #billNumber {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
+    <!-- Your Navbar -->
     <%- include('navbar') %>
-    <center><h2><b><i>GST Purchase Bill</i></b></h2></center>
+    <center><h2><b><i>Purchase Bill</i></b></h2></center>
     <br>
-    
+   
+    <div class="form-container">
+        <form>
+            <center><h2>Supplier Information</h2></center>
 
+            <!-- Supplier Information Form -->
+            <label for="supplierName">Supplier Name:</label>
+            <input type="text" id="supplierName" name="supplierName" oninput="updateCartSupplierName()" required>
+            <br><br>
+
+            <label for="purchaseDate">Purchase Date:</label>
+            <input type="date" id="purchaseDate" name="purchaseDate" oninput="updateCartDate()" required>
+            <br><br>
+
+            <!-- Product Details -->
+            <center><h2>Product Details</h2></center>
+
+            <label for="productName">Product Name:</label>
+            <input type="text" id="productName" name="productName" required>
+            <br><br>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" min="1" oninput="calculateSubtotal()" required>
+            <br><br>
+            <label for="amount">Amount (per unit):</label>
+            <input type="number" id="amount" name="amount" min="0" required>
+            <br><br>
+            <label for="gstPercentage">GST Percentage:</label>
+            <select id="gstPercentage" name="gstPercentage" onchange="calculateSubtotal()" required>
+                <option value="12">12%</option>
+                <option value="6">6%</option>
+                <option value="5">5%</option>
+                <option value="other">Other</option>
+            </select>
+            <br><br>
+            <label for="batchNumber">Batch Number:</label>
+            <input type="text" id="batchNumber" name="batchNumber" required>
+            <br><br>
+            <label for="expiryDate">Expiry Date (MM/YYYY):</label>
+            <input type="month" id="expiryDate" name="expiryDate">
+            <br><br>
+            <!-- Add to Cart Button -->
+            <button type="button" onclick="addToCart()">Add to Invoice</button>
+            <br><br><br>
+        </form>
+    </div>
+
+    <!-- Cart Container -->
+    <div class="cart-container">
+        <h2>Purchase Cart</h2>
+        <div id="purchaseBillNumber"></div> <!-- Display Bill Number -->
+        <div id="cartItems">Add product to begin</div>
+        <div id="subtotal">Subtotal: ₹0.00</div>
+        <br>
+        <!-- Generate Purchase Invoice Button -->
+        <button type="button" onclick="generatePurchaseInvoice()">Generate Purchase Invoice</button>
+        <br><br><br>
+    </div>
+
+    <script>
+        let cart = [];
+    
+        let selectedSupplier = '';
+    
+        // Load the current purchase bill counter from localStorage or initialize it to 1
+        let purchaseBillCounter = parseInt(localStorage.getItem('purchaseBillCounter')) || 1;
+    
+        function initialize() {
+            // Call initialize function to set the initial purchase bill number
+            updatePurchaseBillNumber();
+        }
+    
+        // Call the initialize function when the page loads
+        window.onload = initialize;
+    
+        function addToCart() {
+            selectedSupplier = document.getElementById('supplierName').value;
+    
+            // Get values from form inputs
+            const productName = document.getElementById('productName').value;
+            const quantity = parseFloat(document.getElementById('quantity').value);
+            const amount = parseFloat(document.getElementById('amount').value);
+            const gstPercentageElement = document.getElementById('gstPercentage');
+            const gstPercentage = gstPercentageElement.value === 'other' ? parseFloat(prompt('Enter GST Percentage')) : parseFloat(gstPercentageElement.value);
+            const batchNumber = document.getElementById('batchNumber').value;
+            const expiryDate = document.getElementById('expiryDate').value || 'N/A'; // Default to 'N/A' if not provided
+    
+            // Check if any of the required fields are empty
+            if (!productName || isNaN(quantity) || isNaN(amount) || isNaN(gstPercentage) || !batchNumber) {
+                alert('Add a product');
+                return;
+            }
+    
+            // Increment the purchase bill counter and update the purchase bill number
+            purchaseBillCounter++;
+            updatePurchaseBillNumber();
+    
+            // Calculate CGST and SGST
+            const cgst = gstPercentage / 2;
+            const sgst = gstPercentage / 2;
+    
+            // Calculate total amount including CGST and SGST
+            const totalAmount = calculateTotalAmount(amount, quantity, cgst, sgst);
+    
+            // Add the product details to the cart array
+            cart.push({
+                productName,
+                quantity,
+                amount,
+                gstPercentage,
+                batchNumber,
+                expiryDate,
+                cgst,
+                sgst,
+                totalAmount
+            });
+    
+            // Update the cart display
+            updateCartDisplay();
+    
+            // Clear the form fields
+            document.getElementById('productName').value = '';
+            document.getElementById('quantity').value = '';
+            document.getElementById('amount').value = '';
+            document.getElementById('gstPercentage').value = '12'; // Set default GST percentage to 12
+            document.getElementById('batchNumber').value = '';
+            document.getElementById('expiryDate').value = '';
+    
+            // Update the subtotal
+            updateSubtotal();
+        }
+    
+        function calculateTotalAmount(amount, quantity, cgst, sgst) {
+            // Calculate total amount including CGST and SGST
+            const totalAmount = (amount * quantity) + ((amount * cgst * quantity) / 100) + ((amount * sgst * quantity) / 100);
+            return totalAmount;
+        }
+    
+        function updateCartDisplay() {
+            // Update the cart display with all the products
+            const cartItemsContainer = document.getElementById('cartItems');
+    
+            // Clear the existing content
+            cartItemsContainer.innerHTML = '';
+    
+            // Display each product in the cart
+            cart.forEach((product, index) => {
+                const productDiv = document.createElement('div');
+                productDiv.classList.add('cart-item');
+    
+                // Set the inner HTML for the product div
+                productDiv.innerHTML = `<strong>${product.productName}</strong> - Quantity: ${product.quantity}, Batch: ${product.batchNumber}, Expiry: ${product.expiryDate}, Amount: ₹${product.amount.toFixed(2)}, CGST: ${product.cgst}%, SGST: ${product.sgst}%, Total: ₹${product.totalAmount.toFixed(2)}`;
+    
+                // Add Remove button
+                const removeButton = document.createElement('button');
+                removeButton.classList.add('remove-button');
+                removeButton.innerText = 'Remove';
+                removeButton.onclick = function () {
+                    // Remove the product from the cart array
+                    cart.splice(index, 1);
+    
+                    // Update the cart display and subtotal
+                    updateCartDisplay();
+                    updateSubtotal();
+                };
+    
+                // Append the remove button to the product div
+                productDiv.appendChild(removeButton);
+    
+                // Append the product div to the cart container
+                cartItemsContainer.appendChild(productDiv);
+            });
+    
+            // Update the subtotal
+            updateSubtotal();
+        }
+    
+        function calculateSubtotal() {
+            // Calculate subtotal when needed (not after adding each product)
+            const subtotal = cart.reduce((total, product) => total + product.totalAmount, 0);
+    
+            // Calculate roundoff value
+            const roundoff = (subtotal - Math.floor(subtotal)).toFixed(2);
+    
+            // Display rounded subtotal and roundoff value
+            document.getElementById('subtotal').innerText = `Subtotal: ₹${subtotal.toFixed(2)} (Roundoff: ₹${roundoff})`;
+        }
+    
+        function updateSubtotal() {
+            // Update subtotal when a new item is added to the cart
+            calculateSubtotal();
+        }
+    
+        function updateCartSupplierName() {
+            // Update supplier name in the cart as soon as it is entered
+            const supplierName = document.getElementById('supplierName').value;
+            document.getElementById('cartItems').innerHTML = `<strong>Supplier:</strong> ${supplierName}`;
+        }
+    
+        function updateCartDate() {
+            // Update purchase date in the cart as soon as it is entered
+            const purchaseDate = document.getElementById('purchaseDate').value;
+            document.getElementById('cartItems').innerHTML += ` - <strong>Purchase Date:</strong> ${formatDate(purchaseDate)}`;
+        }
+    
+        function generatePurchaseInvoice() {
+            // Check if there are products in the cart
+            if (cart.length > 0) {
+                // Increment the purchase bill counter and update the purchase bill number
+                purchaseBillCounter++;
+                updatePurchaseBillNumber();
+    
+                // Calculate total purchase value
+                const totalPurchaseValue = cart.reduce((total, product) => total + product.totalAmount, 0);
+    
+                // Implement your logic for generating the final purchase invoice here
+                alert(`Purchase Invoice generated successfully!\nTotal Purchase Value: ₹${totalPurchaseValue.toFixed(2)}`);
+    
+                // Clear supplier information and cart items
+                document.getElementById('supplierName').value = '';
+                document.getElementById('purchaseDate').value = '';
+                document.getElementById('cartItems').innerHTML = '';
+                document.getElementById('subtotal').innerText = 'Subtotal: ₹0.00';
+    
+                // Clear the cart array
+                cart = [];
+    
+            } else {
+                alert('Add at least one product to the cart before generating a purchase invoice.');
+            }
+        }
+    
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            const formattedDate = new Date(dateString).toLocaleDateString('en-IN', options);
+            return formattedDate;
+        }
+    
+        function updatePurchaseBillNumber() {
+            // Display the updated purchase bill number
+            document.getElementById('purchaseBillNumber').innerText = `PURCHASE-BILL-${purchaseBillCounter.toString().padStart(2, '0')}`;
+    
+            // Store the current purchase bill counter in localStorage
+            localStorage.setItem('purchaseBillCounter', purchaseBillCounter.toString());
+        }
+    </script>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Saravana Hospital. All rights reserved.</p>
+    </footer>
 </body>
-<%- include('footer') %>
 </html>
+
