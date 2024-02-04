@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="/images/favicon.icon" href="favicon/licon.ico"> 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    <title>Add Lab Investigation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haematology Form</title>
+  <style>
+    .form-control {
+      width: 50%; /* Adjust the width as needed */
+      display: inline-block;
+    }
+
+    .validation-range {
+      display: block;
+      margin-left: 10px;
+      font-size: 12px;
+    }
+    
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
   <%- include('navbar') %>
@@ -22,179 +32,303 @@
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Age</label>
         <input type="number" class="form-control" id="Age" placeholder="Age" name="Age" required>
-      </div>
-      <div class="dropdown">
-        <label for="exampleFormControlInput1" class="form-label">Gender</label>
-        <select name="Gender" required>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
-        <br><br>
-        <div class="dropdown">
-          <label for="exampleFormControlInput1" class="form-label">Ref. By</label>
-          <select name="Reference">
-            <%for(const d of doctors){%>
-              <option value="<%= d.doctorname %>"><%= d.doctorname %></option>
-              <%}%>
-          </select>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Patient's Name</label>
+            <input type="text" class="form-control" id="DName" placeholder="Patient Name" name="lname" required>
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Age</label>
+            <input type="number" class="form-control" id="Age" placeholder="Age" name="Age" required>
+          </div>
+<div class="dropdown">
+  <label for="exampleFormControlInput1" class="form-label">Gender</label>
+  <select name="Gender" id="genderSelect" required>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+  </select>
+  <br><br>
+
+  <div class="dropdown">
+    <label for="exampleFormControlInput1" class="form-label">Ref. By</label>
+    <select name="Reference">
+      <!-- Add your dynamic options here -->
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Date</label>
+    <input type="date" class="form-control" id="Date" name="date" required>
+  </div>
+
+  <h3><label for="exampleFormControlTextarea1" class="form-label">Haematology</label></h3>
+
+  <div class="mb-3">
+    <!-- Add input fields for haematology parameters -->
+    <label for="RBCCount" class="form-label">RBC Count</label>
+    <input type="text" class="form-control" id="RBCCount" name="RBCCount">
+    <p class="validation-range" id="RBCCountRange">Range: 4.5 - 6.0 million/cumm</p>
+
+    <label for="Hemoglobin" class="form-label">Hemoglobin</label>
+    <input type="text" class="form-control" id="Hemoglobin" name="Hemoglobin">
+    <p class="validation-range" id="HemoglobinRange">Range: 13.5 - 17.0 gm/dl</p>
+
+    <label for="PackedCellVolume" class="form-label">Packed Cell Volume</label>
+    <input type="text" class="form-control" id="PackedCellVolume" name="PackedCellVolume">
+    <p class="validation-range" id="PackedCellVolumeRange">Range: 39 - 52%</p>
+
+    <label for="Mvc" class="form-label">Mvc</label>
+    <input type="text" class="form-control" id="Mvc" name="Mvc">
+    <p class="validation-range" id="MvcRange">Range: 78 - 96 cumm</p>
+
+    <label for="MCH" class="form-label">MCH</label>
+    <input type="text" class="form-control" id="MCH" name="MCH">
+    <p class="validation-range" id="MCHRange">Range: 27 - 31 pg</p>
+
+    <label for="MCHC" class="form-label">MCHC</label>
+    <input type="text" class="form-control" id="MCHC" name="MCHC">
+    <p class="validation-range" id="MCHCRange">Range: 32 - 36%</p>
+
+    <label for="ReticulocyteCount" class="form-label">Reticulocyte Count</label>
+    <input type="text" class="form-control" id="ReticulocyteCount" name="ReticulocyteCount">
+    <p class="validation-range" id="ReticulocyteCountRange">Range: 0.5 - 2.0%</p>
+
+    <label for="EsrHour" class="form-label">Esr Hour</label>
+    <input type="text" class="form-control" id="EsrHour" name="EsrHour">
+    <p class="validation-range" id="EsrHourRange">Range: 0 - 9 mm/hr (Male), 0 - 20 mm/hr (Female)</p>
+
+    <label for="TotalWBCCount" class="form-label">Total WBC Count</label>
+    <input type="text" class="form-control" id="TotalWBCCount" name="TotalWBCCount">
+    <p class="validation-range" id="TotalWBCCountRange">Range: 4000 - 11000 cells/cumm</p>
+  
+    
+          <!-- Differential Count section -->
+          <label for="Polymorphs" class="form-label">Polymorphs</label>
+          <input type="text" class="form-control" id="Polymorphs" name="Polymorphs">
+          <p class="validation-range" id="PolymorphsRange">Range: 40 to 65%</p>
+
+          <label for="Lymphocytes" class="form-label">Lymphocytes</label>
+          <input type="text" class="form-control" id="Lymphocytes" name="Lymphocytes">
+          <p class="validation-range" id="LymphocytesRange">Range: 30 to 50%</p>
+
+          <label for="Eosinophils" class="form-label">Eosinophils</label>
+          <input type="text" class="form-control" id="Eosinophils" name="Eosinophils">
+          <p class="validation-range" id="EosinophilsRange">Range: 02 to 06%</p>
+
+          <label for="Monocytes" class="form-label">Monocytes</label>
+          <input type="text" class="form-control" id="Monocytes" name="Monocytes">
+          <p class="validation-range" id="MonocytesRange">Range: 02 to 04%</p>
+
+          <label for="Basophils" class="form-label">Basophils</label>
+          <input type="text" class="form-control" id="Basophils" name="Basophils">
+          <p class="validation-range" id="BasophilsRange">Range: 00 to 01%</p>
+
+          <!-- Absolute Eosinophil Count -->
+          <label for="AbsoluteEosinophilCount" class="form-label">Absolute Eosinophil Count</label>
+          <input type="text" class="form-control" id="AbsoluteEosinophilCount" name="AbsoluteEosinophilCount">
+          <p class="validation-range" id="AbsoluteEosinophilCountRange">Range: 40 to 440 Cells/Cumm</p>
+
+          <!-- Platelet Count -->
+          <label for="PlateletCount" class="form-label">Platelet Count</label>
+          <input type="text" class="form-control" id="PlateletCount" name="PlateletCount">
+          <p class="validation-range" id="PlateletCountRange">Range: 1.5 to 4.0 Lakhs/Cumm</p>
+
+          <!-- Bleeding Time -->
+          <label for="BleedingTime" class="form-label">Bleeding Time</label>
+          <input type="text" class="form-control" id="BleedingTime" name="BleedingTime">
+          <p class="validation-range" id="BleedingTimeRange">Range: 2 to 6 minutes</p>
+
+          <!-- I.V.F. Method section -->
+          <h3><label for="exampleFormControlTextarea1" class="form-label">I.V.F. Method</label></h3>
+
+          <!-- Clotting Time -->
+          <label for="ClottingTime" class="form-label">Clotting Time</label>
+          <input type="text" class="form-control" id="ClottingTime" name="ClottingTime">
+          <p class="validation-range" id="ClottingTimeRange">Range: 3 to 10 minutes</p>
+
+          <!-- Add more parameters as needed -->
+
         </div>
-      <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Date</label>
-        <input type="date" class="form-control" id="Date" name="date" required>
-      </div>
-     <h3> <label for="exampleFormControlTextarea1" class="form-label">Haematology</label></h3>
-      <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Hb%</label>
-        <input type="text" class="form-control" id="Name" placeholder="Hb%" name="Hb%">
-        <label for="exampleFormControlInput1" class="form-label">E.S.R.</label>
-        <input type="text" class="form-control" id="Name" placeholder="E.S.R" name="E.S.R">
-        <label for="exampleFormControlInput1" class="form-label">B.T</label>
-        <input type="text" class="form-control" id="Name" placeholder="B.T" name="B.T">
-        <label for="exampleFormControlInput1" class="form-label">C.T</label>
-        <input type="text" class="form-control" id="Name" placeholder="C.T" name="C.T">
-        <label for="exampleFormControlInput1" class="form-label">AbsoluteEosinophilCount</label>
-        <input type="text" class="form-control" id="Name" placeholder="AbsoluteEosinophilCount" name="AbsoluteEosinophilCount">
-        <label for="exampleFormControlInput1" class="form-label">Peripheral Smear for Mp/MF</label>
-        <input type="text" class="form-control" id="Name" placeholder="Peripheral Smear for Mp/MF" name="Peripheral Smear for Mp/MF">
-        <label for="exampleFormControlInput1" class="form-label">Peripheral Smear Study</label>
-        <input type="text" class="form-control" id="Name" placeholder="Peripheral Smear Study" name="Peripheral Smear Study">
-        <label for="exampleFormControlInput1" class="form-label">Blood Group / R.H Type</label>
-        <input type="text" class="form-control" id="Name" placeholder="Blood Group / R.H Type" name="Blood Group / R.H Type">
-        <label for="exampleFormControlInput1" class="form-label">Test for SYPHILIS</label>
-        <input type="text" class="form-control" id="Name" placeholder="Test for SYPHILIS" name="Test for SYPHILIS">
-      </div>
-     <h3> <label for="exampleFormControlTextarea1" class="form-label">WIDAL</label>
-      <br>
-      <label for="exampleFormControlTextarea1" class="form-label">Dengue Nsl,IgG & IgM</label>
-      <br> </h3>
-      <label for="exampleFormControlTextarea1" class="form-label">Bio Chemistry</label>
-      <br>
-      <label for="exampleFormControlInput1" class="form-label">Blood Sugar Random</label>
-      <input type="text" class="form-control" id="Name" placeholder="Blood Sugar Random" name="Blood Sugar Random">
-      <label for="exampleFormControlInput1" class="form-label">Blood Sugar Fasting / P.P</label>
-      <input type="text" class="form-control" id="Name" placeholder="Blood Sugar Fasting / P.P" name="Blood Sugar Fasting / P.P">
-      <h3> <label for="exampleFormControlTextarea1" class="form-label">HBA1c</label></h3>
-      <label for="exampleFormControlInput1" class="form-label">GTT</label>
-      <input type="text" class="form-control" id="Name" placeholder="GTT" name="GTT">
-      <h3> <label for="exampleFormControlTextarea1" class="form-label">RFT</label></h3>
-      <label for="exampleFormControlInput1" class="form-label">Blood Urea</label>
-      <input type="text" class="form-control" id="Name" placeholder="Blood Urea" name="Blood Urea">
-      <label for="exampleFormControlInput1" class="form-label">Serum Creatinine</label>
-      <input type="text" class="form-control" id="Name" placeholder="Serum Creatinine" name="Serum Creatinine">
-      <h3> <label for="exampleFormControlTextarea1" class="form-label">Cholestrol</label>
-        <br>
-        <label for="exampleFormControlTextarea1" class="form-label">Lipid Profile</label>
-        <br> </h3>
-        <label for="exampleFormControlInput1" class="form-label">TROPONIN-I</label>
-        <input type="text" class="form-control" id="Name" placeholder="TROPONIN-I" name="TROPONIN-I">
-        <h3> <label for="exampleFormControlTextarea1" class="form-label">L.F.T</label></h3>
-        <label for="exampleFormControlInput1" class="form-label">S.Bilirubin</label>
-        <input type="text" class="form-control" id="Name" placeholder="S.Bilirubin" name="S.Bilirubin">
-        <label for="exampleFormControlInput1" class="form-label">Total / Differential</label>
-        <input type="text" class="form-control" id="Name" placeholder="Total / Differential" name="Total / Differential">
-        <label for="exampleFormControlInput1" class="form-label">Alk  & Acid Phosphatase</label>
-        <input type="text" class="form-control" id="Name" placeholder="Alk  & Acid Phosphatase" name="Alk  & Acid Phosphatase">
-        <label for="exampleFormControlInput1" class="form-label">S. Protein A.G. Ratio</label>
-        <input type="text" class="form-control" id="Name" placeholder="S. Protein A.G. Ratio" name="S. Protein A.G. Ratio">
-        <label for="exampleFormControlInput1" class="form-label">S.G.O.T</label>
-        <input type="text" class="form-control" id="Name" placeholder="S.G.O.T" name="S.G.O.T">
-        <label for="exampleFormControlInput1" class="form-label">S.G.P.T</label>
-        <input type="text" class="form-control" id="Name" placeholder="S.G.P.T" name="S.G.P.T">
-        <label for="exampleFormControlInput1" class="form-label">Prothrombin time</label>
-        <input type="text" class="form-control" id="Name" placeholder="Prothrombin time" name="Prothrombin time">
-        <label for="exampleFormControlInput1" class="form-label">Serum Calcium</label>
-        <input type="text" class="form-control" id="Name" placeholder="Serum Calcium" name="Serum Calcium">
-        <h3> <label for="exampleFormControlTextarea1" class="form-label">RHEUMATIC PROFILE</label></h3>
-        <label for="exampleFormControlInput1" class="form-label">ESR</label>
-        <input type="text" class="form-control" id="Name" placeholder="ESR" name="ESR">
-        <label for="exampleFormControlInput1" class="form-label">CRP</label>
-        <input type="text" class="form-control" id="Name" placeholder="CRP" name="CRP">
-        <label for="exampleFormControlInput1" class="form-label">Serum Uric Acid</label>
-        <input type="text" class="form-control" id="Name" placeholder="Serum Uric Acid" name="Serum Uric Acid">
-        <label for="exampleFormControlInput1" class="form-label">Latex Fixation for R.F</label>
-        <input type="text" class="form-control" id="Name" placeholder="Latex Fixation for R.F" name="Latex Fixation for R.F">
-        <label for="exampleFormControlInput1" class="form-label">Serum A.S.O Tire</label>
-        <input type="text" class="form-control" id="Name" placeholder="Serum A.S.O Tire" name="Serum A.S.O Tire">
-        <label for="exampleFormControlInput1" class="form-label">ANA</label>
-        <input type="text" class="form-control" id="Name" placeholder="ANA" name="ANA">
-        <h3> <label for="exampleFormControlTextarea1" class="form-label">CRP</label></h3>
-        <label for="exampleFormControlInput1" class="form-label">Amylase</label>
-        <input type="text" class="form-control" id="Name" placeholder="Amylase" name="Amylase">
-        <b>
-        <label for="exampleFormControlInput1" class="form-label">Electrolytes</label>
-        <input type="text" class="form-control" id="Name" placeholder="Electrolytes" name="Electrolytes">
-        <label for="exampleFormControlInput1" class="form-label">SERUM HBS. Avg</label>
-        <input type="text" class="form-control" id="Name" placeholder="SERUM HBS. Avg" name="SERUM HBS. Avg">
-        <label for="exampleFormControlInput1" class="form-label">H.I.V 1 & 2</label>
-        <input type="text" class="form-control" id="Name" placeholder="H.I.V 1 & 2" name="H.I.V 1 & 2">
-        </b>
-        <h3> <label for="exampleFormControlTextarea1" class="form-label">URINE</label></h3>
-        <label for="exampleFormControlInput1" class="form-label">Albumin</label>
-        <input type="text" class="form-control" id="Name" placeholder="Albumin" name="Albumin">
-        <label for="exampleFormControlInput1" class="form-label">Sugar</label>
-        <input type="text" class="form-control" id="Name" placeholder="Sugar" name="Sugar">
-        <label for="exampleFormControlInput1" class="form-label">Deposits</label>
-        <input type="text" class="form-control" id="Name" placeholder="Deposits" name="Deposits">
-        <label for="exampleFormControlInput1" class="form-label">Bile Salts</label>
-        <input type="text" class="form-control" id="Name" placeholder="Bile Salts" name="Bile Salts">
-        <label for="exampleFormControlInput1" class="form-label">Bile Pigments</label>
-        <input type="text" class="form-control" id="Name" placeholder="Bile Pigments" name="Bile Pigments">
-        <label for="exampleFormControlInput1" class="form-label">Acetone</label>
-        <input type="text" class="form-control" id="Name" placeholder="Acetone" name="Acetone">
-        <label for="exampleFormControlInput1" class="form-label">P.H</label>
-        <input type="text" class="form-control" id="Name" placeholder="P.H" name="P.H">
-        <label for="exampleFormControlInput1" class="form-label">Urobilinogen</label>
-        <input type="text" class="form-control" id="Name" placeholder="Urobilinogen" name="Urobilinogen">
-        <label for="exampleFormControlInput1" class="form-label">Specific Gravity</label>
-        <input type="text" class="form-control" id="Name" placeholder="Specific Gravity" name="Specific Gravity">
-        <label for="exampleFormControlInput1" class="form-label">PREGNANCY TEST</label>
-        <input type="text" class="form-control" id="Name" placeholder="PREGNANCY TEST" name="PREGNANCY TEST">
-        <label for="exampleFormControlInput1" class="form-label">CULTURE & SENSITIVITY</label>
-        <input type="text" class="form-control" id="Name" placeholder="CULTURE & SENSITIVITY" name="Urine CULTURE & SENSITIVITY">
-        <label for="exampleFormControlInput1" class="form-label">Micro Albumin</label>
-        <input type="text" class="form-control" id="Name" placeholder="Micro Albumin" name="Micro Albumin">
-        <h3> <label for="exampleFormControlTextarea1" class="form-label">O & G</label></h3>
-        <label for="exampleFormControlInput1" class="form-label">T3 T4 TSH</label>
-        <input type="text" class="form-control" id="Name" placeholder="T3 T4 TSH" name="T3 T4 TSH">
-        <label for="exampleFormControlInput1" class="form-label">Free T3 T4 TSH</label>
-        <input type="text" class="form-control" id="Name" placeholder="Free T3 T4 TSH" name="Free T3 T4 TSH">
-        <label for="exampleFormControlInput1" class="form-label">LH/FSH/Prolactin/AMH</label>
-        <input type="text" class="form-control" id="Name" placeholder="LH/FSH/Prolactin/AMH" name="LH/FSH/Prolactin/AMH">
-        <label for="exampleFormControlInput1" class="form-label">BHCG</label>
-        <input type="text" class="form-control" id="Name" placeholder="BHCG" name="BHCG">
-        <h3> <label for="exampleFormControlTextarea1" class="form-label">MOTION</label></h3>
-        <label for="exampleFormControlInput1" class="form-label">Ova,Cyst,Lactose</label>
-        <input type="text" class="form-control" id="Name" placeholder="Ova,Cyst,Lactose" name="Ova,Cyst,Lactose">
-        <label for="exampleFormControlInput1" class="form-label">Occult Blood</label>
-        <input type="text" class="form-control" id="Name" placeholder="Occult Blood" name="Occult Blood">
-        <label for="exampleFormControlInput1" class="form-label">CULTURE & SENSITIVITY</label>
-        <input type="text" class="form-control" id="Name" placeholder="CULTURE & SENSITIVITY" name="Motion CULTURE & SENSITIVITY">
-        <h3> <label for="exampleFormControlTextarea1" class="form-label">SPUTUM</label></h3>
-        <label for="exampleFormControlInput1" class="form-label">for A.F.B & Gram's Stain</label>
-        <input type="text" class="form-control" id="Name" placeholder="A.F.B & Gram's Stain" name="A.F.B & Gram's Stain">
-        <label for="exampleFormControlInput1" class="form-label">CULTURE & SENSITIVITY</label>
-        <input type="text" class="form-control" id="Name" placeholder="CULTURE & SENSITIVITY" name="Sputum CULTURE & SENSITIVITY">
-        <b>
-          <label for="exampleFormControlInput1" class="form-label">MANTOUX</label>
-          <input type="text" class="form-control" id="Name" placeholder="MANTOUX" name="MANTOUX">
-          <label for="exampleFormControlInput1" class="form-label">SEMEN ANALYSIS</label>
-          <input type="text" class="form-control" id="Name" placeholder="SEMEN ANALYSIS" name="SEMEN ANALYSIS">
-          <label for="exampleFormControlInput1" class="form-label">C.S.F Analysis </label>
-          <input type="text" class="form-control" id="Name" placeholder="C.S.F Analysis" name="C.S.F Analysis">
-          <label for="exampleFormControlInput1" class="form-label">E.C.G</label>
-          <input type="text" class="form-control" id="Name" placeholder="E.C.G" name="E.C.G">
-          </b>
-          <label for="exampleFormControlInput1" class="form-label">Part to be X-Rayed</label>
-          <input type="text" class="form-control" id="Name" placeholder="Part to be X-Rayed" name="Part to be X-Rayed">
-      <label for="exampleFormControlTextarea1" class="form-label">Investigation Report</label>
-      <div class="input-group mb-3" id="P">
-        <input type="file" class="form-control" id="Prescription">
-      </div>
-      <button class="btn btn-success" id="Submit">Submit</button>
-     </form> 
+    
+    <h3><label for="exampleFormControlTextarea1" class="form-label">Bio-Chemistry</label></h3>
+
+    <div class="mb-3">
+      <!-- Blood Sugar (F) -->
+      <label for="BloodSugarF" class="form-label">Blood Sugar (F)</label>
+      <input type="text" class="form-control" id="BloodSugarF" name="BloodSugarF">
+      <p class="validation-range" id="BloodSugarFRange">Range: 60 - 100 mgs %</p>
+
+      <!-- Blood Group (PP) -->
+      <label for="BloodGroupPP" class="form-label">Blood Group (PP)</label>
+      <input type="text" class="form-control" id="BloodGroupPP" name="BloodGroupPP">
+      <p class="validation-range" id="BloodGroupPPRange">Range: 100 - 140 mgs %</p>
+
+      <!-- Blood Group (R) -->
+      <label for="BloodGroupR" class="form-label">Blood Group (R)</label>
+      <input type="text" class="form-control" id="BloodGroupR" name="BloodGroupR">
+      <p class="validation-range" id="BloodGroupRRange">Range: 80 - 120 mgs %</p>
+
+      <!-- Blood Urea -->
+      <label for="BloodUrea" class="form-label">Blood Urea</label>
+      <input type="text" class="form-control" id="BloodUrea" name="BloodUrea">
+      <p class="validation-range" id="BloodUreaRange">Range: Men (15 - 40 mgs %), Women (10 - 30 mgs %)</p>
+
+      <!-- Serum Creatinine -->
+      <label for="SerumCreatinine" class="form-label">Serum Creatinine</label>
+      <input type="text" class="form-control" id="SerumCreatinine" name="SerumCreatinine">
+      <p class="validation-range" id="SerumCreatinineRange">Range: Men (0.6 - 1.3 mgs %), Women (0.4 - 1.0 mgs %)</p>
+
+      <!-- Uric Acid -->
+      <label for="UricAcid" class="form-label">Uric Acid</label>
+      <input type="text" class="form-control" id="UricAcid" name="UricAcid">
+      <p class="validation-range" id="UricAcidRange">Range: Men (3.4 to 7.0 mg/dl), Women (2.4 to 5.7 mg/dl)</p>
+
+      <!-- Serum Calcium -->
+      <label for="SerumCalcium" class="form-label">Serum Calcium</label>
+      <input type="text" class="form-control" id="SerumCalcium" name="SerumCalcium">
+      <p class="validation-range" id="SerumCalciumRange">Range: 8.0 to 10.5 mgs%</p>
+
+      <!-- Total Proteins -->
+      <label for="TotalProteins" class="form-label">Total Proteins</label>
+      <input type="text" class="form-control" id="TotalProteins" name="TotalProteins">
+      <p class="validation-range" id="TotalProteinsRange">Range: 6.0 - 8.0 gms%</p>
+
+      <!-- Albumin -->
+      <label for="Albumin" class="form-label">Albumin</label>
+      <input type="text" class="form-control" id="Albumin" name="Albumin">
+      <p class="validation-range" id="AlbuminRange">Range: 4.0 - 6.0 gms%</p>
+
+      <!-- Globulin -->
+      <label for="Globulin" class="form-label">Globulin</label>
+      <input type="text" class="form-control" id="Globulin" name="Globulin">
+      <p class="validation-range" id="GlobulinRange">Range: 2.0 - 4.0 gms%</p>
+
+      <!-- Total Bilirubin -->
+      <label for="TotalBilirubin" class="form-label">Total Bilirubin</label>
+      <input type="text" class="form-control" id="TotalBilirubin" name="TotalBilirubin">
+      <p class="validation-range" id="TotalBilirubinRange">Range: 0.3 - 1.0 mgs%</p>
+
+      <!-- Direct Bilirubin -->
+      <label for="DirectBilirubin" class="form-label">Direct Bilirubin</label>
+      <input type="text" class="form-control" id="DirectBilirubin" name="DirectBilirubin">
+      <p class="validation-range" id="DirectBilirubinRange">Range: 0.0 - 0.3 mgs%</p>
+
+      <!-- S.G.O.T -->
+      <label for="SGOT" class="form-label">S.G.O.T</label>
+      <input type="text" class="form-control" id="SGOT" name="SGOT">
+      <p class="validation-range" id="SGOTRange">Range: Up to 40 U/LT</p>
+
+      <!-- S.G.P.T -->
+      <label for="SGPT" class="form-label">S.G.P.T</label>
+      <input type="text" class="form-control" id="SGPT" name="SGPT">
+      <p class="validation-range" id="SGPTRange">Range: Up to 40 U/LT</p>
+
+      <!-- Serum Amylase -->
+      <label for="SerumAmylase" class="form-label">Serum Amylase</label>
+      <input type="text" class="form-control" id="SerumAmylase" name="SerumAmylase">
+      <p class="validation-range" id="SerumAmylaseRange">Range: 25 - 125 U/LT</p>
+
+      <!-- Blood HBAIC -->
+      <label for="BloodHBAIC" class="form-label">Blood HBAIC</label>
+      <input type="text" class="form-control" id="BloodHBAIC" name="BloodHBAIC">
+      <p class="validation-range" id="BloodHBAICRange">Range: 4.5 - 6.3 %</p>
+
+      <!-- Add more bio-chemistry parameters -->
+
     </div>
-    </center>
-    <br><br><br>
-    <%- include('footer') %>
+
+  </div>
+
+</div>
+<script>
+  // Function to dynamically update validation ranges based on gender
+  function updateValidationRanges() {
+    var gender = $('#genderSelect').val().toLowerCase();
+
+    // Define the validation ranges for different haematology parameters based on gender
+    var ranges = {
+      'male': {
+        'RBCCount': 'Range: 4.5 - 6.0 million/cumm',
+        'Hemoglobin': 'Range: 13.5 - 17.0 gm/dl',
+        'PackedCellVolume': 'Range: 39 - 52%',
+        'Mvc': 'Range: 78 - 96 cumm',
+        'MCH': 'Range: 27 - 31 pg',
+        'MCHC': 'Range: 32 - 36%',
+        'ReticulocyteCount': 'Range: 0.5 - 2.0%',
+        'EsrHour': 'Range: 0 - 9 mm/hr',
+        'TotalWBCCount': 'Range: 4000 - 11000 cells/cumm',
+        'BloodUrea': 'Range: 15 - 40 mgs %',
+        'SerumCreatinine': 'Range: 0.6 - 1.3 mgs %',
+        'UricAcid': 'Range: 3.4 to 7.0 mg/dl',
+        'SerumCalcium': 'Range: 8.0 to 10.5 mgs%',
+        'TotalProteins': 'Range: 6.0 - 8.0 gms%',
+        'Albumin': 'Range: 4.0 - 6.0 gms%',
+        'Globulin': 'Range: 2.0 - 4.0 gms%',
+        'TotalBilirubin': 'Range: 0.3 - 1.0 mgs%',
+        'DirectBilirubin': 'Range: 0.0 - 0.3 mgs%',
+        'SGOT': 'Range: Up to 40 U/LT',
+        'SGPT': 'Range: Up to 40 U/LT',
+        'SerumAmylase': 'Range: 25 - 125 U/LT',
+        'BloodHBAIC': 'Range: 4.5 - 6.3 %',
+        // Add more parameters and their ranges for males
+      },
+      'female': {
+        'RBCCount': 'Range: 4.2 - 5.4 million/cumm',
+        'Hemoglobin': 'Range: 12.0 - 15.5 gm/dl',
+        'PackedCellVolume': 'Range: 36 - 46%',
+        'Mvc': 'Range: 78 - 96 cumm',
+        'MCH': 'Range: 27 - 31 pg',
+        'MCHC': 'Range: 32 - 36%',
+        'ReticulocyteCount': 'Range: 0.5 - 2.0%',
+        'EsrHour': 'Range: 0 - 20 mm/hr',
+        'TotalWBCCount': 'Range: 4000 - 11000 cells/cumm',
+        'BloodUrea': 'Range: 10 - 30 mgs %',
+        'SerumCreatinine': 'Range: 0.4 - 1.0 mgs %',
+        'UricAcid': 'Range: 2.4 to 5.7 mg/dl',
+        'SerumCalcium': 'Range: 8.0 to 10.5 mgs%',
+        'TotalProteins': 'Range: 6.0 - 8.0 gms%',
+        'Albumin': 'Range: 4.0 - 6.0 gms%',
+        'Globulin': 'Range: 2.0 - 4.0 gms%',
+        'TotalBilirubin': 'Range: 0.3 - 1.0 mgs%',
+        'DirectBilirubin': 'Range: 0.0 - 0.3 mgs%',
+        'SGOT': 'Range: Up to 40 U/LT',
+        'SGPT': 'Range: Up to 40 U/LT',
+        'SerumAmylase': 'Range: 25 - 125 U/LT',
+        'BloodHBAIC': 'Range: 4.5 - 6.3 %',
+        // Add more parameters and their ranges for females
+      },
+    };
+
+    // Update the validation ranges for each haematology parameter
+    $.each(ranges[gender], function (parameter, range) {
+      $('#' + parameter + 'Range').text(range);
+    });
+
+    // Define the validation ranges for additional parameters
+    var additionalRanges = {
+      'Polymorphs': 'Range: 40 to 65%',
+      'Lymphocytes': 'Range: 30 to 50%',
+      'Eosinophils': 'Range: 02 to 06%',
+      'Monocytes': 'Range: 02 to 04%',
+      'Basophils': 'Range: 00 to 01%',
+      'AbsoluteEosinophilCount': 'Range: 40 to 440 Cells/Cumm',
+      'PlateletCount': 'Range: 1.5 to 4.0 Lakhs/Cumm',
+      'BleedingTime': 'Range: 2 to 6 minutes',
+      'ClottingTime': 'Range: 3 to 10 minutes',
+      // Add more parameters and their ranges
+    };
+
+    // Update the validation ranges for each additional parameter
+    $.each(additionalRanges, function (parameter, range) {
+      $('#' + parameter + 'Range').text(range);
+    });
+  }
+ 
+  // Bind the update function to the gender select change event
+  $('#genderSelect').change(updateValidationRanges);
+  
+  // Initial update of validation ranges
+  updateValidationRanges();
+</script>
+
 </body>
 </html>
