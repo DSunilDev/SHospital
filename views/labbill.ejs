@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Billing System</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+        .form-container {
+            float: left;
+            width: 60%;
+            margin-bottom: 20px;
+        }
+        .cart-container {
+            float: right;
+            width: 35%;
+            margin-left: 5%;
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .cart-item {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .remove-button {
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            padding: 5px 8px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+            background-color: #f1f1f1;
+            clear: both;
+        }
+        #subtotal {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        #billNumber {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <center><h2><b><i>Lab Billing System</i></b></h2></center>
+    <br>
+    <div class="form-container">
+        <form id="billingForm">
+            <center><h2>Patient Information</h2></center>
+            <label for="patientName">Patient Name:</label>
+            <input type="text" id="patientName" name="patientName" required>
+            <br><br>
+            <label for="billingDate">Billing Date:</label>
+            <input type="date" id="billingDate" name="billingDate" required>
+            <br><br>
+            <center><h2>Test Details</h2></center>
+            <label for="testSelect">Select Test:</label>
+            <select id="testSelect" name="testSelect">
+                <option value="">Select a test</option>
+                <option value="Blood Test">Blood Test</option>
+                <option value="Urine Test">Urine Test</option>
+                <option value="X-Ray">X-Ray</option>
+                <option value="CT Scan">CT Scan</option>
+            </select>
+            <br><br>
+            <label for="amount">Amount (₹):</label>
+            <input type="number" id="amount" name="amount" min="0" required>
+            <br><br>
+            <button type="button" onclick="addToCart()">Add to Invoice</button>
+            <br><br><br>
+        </form>
+    </div>
+
+    <div class="cart-container">
+        <h2>Invoice Cart</h2>
+        <div id="billNumber"></div>
+        <div id="cartItems">Add test to begin</div>
+        <div id="subtotal">Subtotal: ₹0.00</div>
+        <br>
+        <button type="button" onclick="generateInvoice()">Generate and Print Invoice</button>
+        <br><br><br>
+    </div>
+
+    <script>
+        let cart = [];
+
+        let billCounter = parseInt(localStorage.getItem('billCounter')) || 1;
+
+        function initialize() {
+            updateBillNumber();
+            loadCartFromLocalStorage();
+        }
+
+        window.onload = initialize;
+
+        function addToCart() {
+            const patientName = document.getElementById('patientName').value;
+            const billingDate = document.getElementById('billingDate').value;
+            const testSelect = document.getElementById('testSelect').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+
+            if (!testSelect || isNaN(amount) || amount <= 0) {
+                alert('Please enter valid test and amount');
+                return;
+            }
+
+            cart.push({
+                test: testSelect,
+                amount: amount
+            });
+
+            saveCartToLocalStorage();
+            updateCartDisplay();
+
+            document.getElementById('testSelect').value = '';
+            document.getElementById('amount').value = '';
+            updateSubtotal();
+        }
+
+        function updateCartDisplay() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            cartItemsContainer.innerHTML = '';
+
+            cart.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('cart-item');
+                itemDiv.innerHTML = `<strong>${item.test}</strong> - Amount: ₹${item.amount.toFixed(2)}`;
+                
+                const removeButton = document.createElement('button');
+                removeButton.classList.add('remove-button');
+                removeButton.innerText = 'Remove';
+                removeButton.onclick = function () {
+                    cart.splice(index, 1);
+                    saveCartToLocalStorage();
+                    updateCartDisplay();
+                };
+
+                itemDiv.appendChild(removeButton);
+                cartItemsContainer.appendChild(itemDiv);
+            });
+
+            updateSubtotal();
+        }
+
+        function updateSubtotal() {
+            const subtotal = cart.reduce((total, item) => total + item.amount, 0);
+            document.getElementById('subtotal').innerText = `Subtotal: ₹${subtotal.toFixed(2)}`;
+        }
+
+        function generateInvoice() {
+            if (cart.length === 0) {
+                alert('Add at least one test to the cart before generating an invoice.');
+                return;
+            }
+
+            billCounter++;
+            updateBillNumber();
+
+            const patientName = document.getElementById('patientName').value;
+            const billingDate = document.getElementById('billingDate').value;
+            const formattedBillingDate = formatDate(billingDate);
+
+            const itemsArray = cart.map((item, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${item.test}</td>
+                    <td>₹${item.amount.toFixed(2)}</td>
+                </tr>
+            `).join('');
+
+            const totalInvoiceValue = cart.reduce((total, item) => total + item.amount, 0);
+
+            const printDocument = document.createElement('div');
+            printDocument.innerHTML = `
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Saravana Hospital Lab Invoice</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 20px;
+                        }
+                        .invoice-header {
+                            text-align: center;
+                            margin-bottom: 20px;
+                        }
+                        .invoice-items {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-bottom: 20px;
+                        }
+                        .invoice-items, .invoice-items th, .invoice-items td {
+                            border: 1px solid #ddd;
+                        }
+                        .invoice-items th, .invoice-items td {
+                            padding: 8px;
+                            text-align: left;
+                        }
+                        .invoice-total {
+                            font-weight: bold;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="invoice-header">
+                        <h2>Lab Invoice</h2>
+                        <p><strong>Patient:</strong> ${patientName}</p>
+                        <p><strong>Billing Date:</strong> ${formattedBillingDate}</p>
+                        <p><strong>Bill Number:</strong> BILL-${billCounter.toString().padStart(2, '0')}</p>
+                    </div>
+                    <table class="invoice-items">
+                        <thead>
+                            <tr>
+                                <th>S No.</th>
+                                <th>Test</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${itemsArray}
+                        </tbody>
+                    </table>
+                    <div class="invoice-total">
+                        <p><strong>Grand total:</strong> ₹${totalInvoiceValue.toFixed(2)}</p>
+                    </div>
+                    <center>
+                        <button onclick="window.print()">Print Invoice</button>
+                    </center>
+                </body>
+                </html>
+            `;
+
+            const printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.open();
+            printWindow.document.write(printDocument.innerHTML);
+            printWindow.document.close();
+            printWindow.focus();
+        }
+
+        function formatDate(date) {
+            const d = new Date(date);
+            return `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getFullYear()}`;
+        }
+
+        function saveCartToLocalStorage() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem('billCounter', billCounter);
+        }
+
+        function loadCartFromLocalStorage() {
+            const savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCartDisplay();
+            }
+        }
+
+        function updateBillNumber() {
+            document.getElementById('billNumber').innerText = `Bill Number: BILL-${billCounter.toString().padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>
