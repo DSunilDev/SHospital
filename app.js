@@ -154,6 +154,12 @@ app.get('/AddAnesthesist',function(req,res)
     res.render('anesthesistform')
 })
 
+
+app.get('/LabBill',async function(req,res){
+    const doctordata=await db.getDb().collection('doctor').find().toArray();
+res.render('labbill',{doctors:doctordata})
+})
+
 app.get('/Anesthesist',async function(req,res)
 {
     const adata=await db.getDb().collection('anesthesists').find().toArray();
